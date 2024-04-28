@@ -1,20 +1,19 @@
 (ns skylobby.client.handler
-  (:require
-    [cheshire.core :as json]
-    [clojure.core.async :as async]
-    [clojure.pprint :refer [pprint]]
-    [clojure.set :refer [rename-keys]]
-    [clojure.string :as string]
-    crypto.random
-    [skylobby.battle :as battle]
-    [skylobby.chat :as chat]
-    [skylobby.client.gloss :as gloss]
-    [skylobby.client.message :as message]
-    [skylobby.fs :as fs]
-    [skylobby.spring :as spring]
-    [skylobby.spring.script :as spring-script]
-    [skylobby.util :as u]
-    [taoensso.timbre :as log]))
+  (:require [cheshire.core :as json]
+            [clojure.core.async :as async]
+            [clojure.pprint :refer [pprint]]
+            [clojure.set :refer [rename-keys]]
+            [clojure.string :as string]
+            crypto.random
+            [skylobby.battle :as battle]
+            [skylobby.chat :as chat]
+            [skylobby.client.gloss :as gloss]
+            [skylobby.client.message :as message]
+            [skylobby.fs :as fs]
+            [skylobby.spring :as spring]
+            [skylobby.spring.script :as spring-script]
+            [skylobby.util :as u]
+            [taoensso.timbre :as log]))
 
 
 (set! *warn-on-reflection* true)

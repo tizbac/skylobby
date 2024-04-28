@@ -1,76 +1,84 @@
 (ns spring-lobby
-  (:require
-    [cheshire.core :as json]
-    [chime.core :as chime]
-    [clj-http.client :as clj-http]
-    [cljfx.api :as fx]
-    [cljfx.css :as css]
-    [clojure.core.async :as async]
-    [clojure.core.cache :as cache]
-    [clojure.edn :as edn]
-    [clojure.java.io :as io]
-    [clojure.pprint :refer [pprint]]
-    [clojure.set]
-    [clojure.string :as string]
-    crypto.random
-    [java-time.api :as java-time]
-    [manifold.deferred :as deferred]
-    [manifold.stream :as s]
-    [skylobby.auto-resources :as auto-resources]
-    [skylobby.battle :as battle]
-    [skylobby.battle-sync :as battle-sync]
-    [skylobby.client :as client]
-    [skylobby.client.gloss :as cu]
-    [skylobby.client.handler :as handler]
-    [skylobby.client.message :as message]
-    [skylobby.color :as color]
-    [skylobby.discord :as discord]
-    [skylobby.download :as download]
-    [skylobby.fs :as fs]
-    [skylobby.fs.sdfz :as replay]
-    skylobby.fx
-    [skylobby.fx.battle :as fx.battle]
-    [skylobby.fx.color :as fx.color]
-    [skylobby.fx.event.battle :as fx.event.battle]
-    [skylobby.fx.event.chat :as fx.event.chat]
-    [skylobby.fx.event.direct :as fx.event.direct]
-    [skylobby.fx.event.minimap :as fx.event.minimap]
-    [skylobby.git :as git]
-    [skylobby.http :as http]
-    [skylobby.import :as import]
-    [skylobby.server :as server]
-    [skylobby.spring :as spring]
-    [skylobby.spring.script :as spring-script]
-    [skylobby.sql :as sql]
-    [skylobby.task :as task]
-    [skylobby.task.handler :as task-handlers]
-    [skylobby.util :as u]
-    [skylobby.watch :as watch]
-    [spring-lobby.sound :as sound]
-    [taoensso.nippy :as nippy]
-    [taoensso.timbre :as log]
-    [taoensso.tufte :as tufte]
-    [version-clj.core :as version])
-  (:import
-    (java.awt Desktop Desktop$Action)
-    (java.io File)
-    (java.lang ProcessBuilder)
-    (java.net URL)
-    (java.util List)
-    (javafx.animation KeyFrame KeyValue Timeline)
-    (javafx.application Platform)
-    (javafx.event Event EventHandler)
-    (javafx.scene Parent)
-    (javafx.scene.canvas Canvas)
-    (javafx.scene.control ColorPicker ScrollBar Tab TextField)
-    (javafx.scene.input KeyCode KeyCodeCombination KeyCombination KeyEvent MouseEvent ScrollEvent)
-    (javafx.scene.media Media MediaPlayer)
-    (javafx.scene Node)
-    (javafx.stage DirectoryChooser FileChooser Stage)
-    (javafx.util Duration)
-    (manifold.stream SplicedStream)
-    (org.controlsfx.control Notifications)
-    (org.fxmisc.flowless VirtualizedScrollPane))
+  (:require [cheshire.core :as json]
+            [chime.core :as chime]
+            [clj-http.client :as clj-http]
+            [cljfx.api :as fx]
+            [cljfx.css :as css]
+            [clojure.core.async :as async]
+            [clojure.core.cache :as cache]
+            [clojure.edn :as edn]
+            [clojure.java.io :as io]
+            [clojure.pprint :refer [pprint]]
+            [clojure.set]
+            [clojure.string :as string]
+            crypto.random
+            java-time
+            [manifold.deferred :as deferred]
+            [manifold.stream :as s]
+            [skylobby.auto-resources :as auto-resources]
+            [skylobby.battle :as battle]
+            [skylobby.battle-sync :as battle-sync]
+            [skylobby.client :as client]
+            [skylobby.client.gloss :as cu]
+            [skylobby.client.handler :as handler]
+            [skylobby.client.message :as message]
+            [skylobby.color :as color]
+            [skylobby.discord :as discord]
+            [skylobby.download :as download]
+            [skylobby.fs :as fs]
+            [skylobby.fs.sdfz :as replay]
+            skylobby.fx
+            [skylobby.fx.battle :as fx.battle]
+            [skylobby.fx.color :as fx.color]
+            [skylobby.fx.event.battle :as fx.event.battle]
+            [skylobby.fx.event.chat :as fx.event.chat]
+            [skylobby.fx.event.direct :as fx.event.direct]
+            [skylobby.fx.event.minimap :as fx.event.minimap]
+            [skylobby.git :as git]
+            [skylobby.http :as http]
+            [skylobby.import :as import]
+            [skylobby.server :as server]
+            [skylobby.spring :as spring]
+            [skylobby.spring.script :as spring-script]
+            [skylobby.sql :as sql]
+            [skylobby.task :as task]
+            [skylobby.task.handler :as task-handlers]
+            [skylobby.util :as u]
+            [skylobby.watch :as watch]
+            [spring-lobby.sound :as sound]
+            [taoensso.nippy :as nippy]
+            [taoensso.timbre :as log]
+            [taoensso.tufte :as tufte]
+            [version-clj.core :as version])
+  (:import (java.awt Desktop Desktop$Action)
+           (java.io File)
+           (java.lang ProcessBuilder)
+           (java.net URL)
+           (java.util List)
+           (javafx.animation KeyFrame KeyValue Timeline)
+           (javafx.application Platform)
+           (javafx.event Event EventHandler)
+           (javafx.scene Parent)
+           (javafx.scene Node)
+           (javafx.scene.canvas Canvas)
+           (javafx.scene.control
+            ColorPicker
+            ScrollBar
+            Tab
+            TextField)
+           (javafx.scene.input
+            KeyCode
+            KeyCodeCombination
+            KeyCombination
+            KeyEvent
+            MouseEvent
+            ScrollEvent)
+           (javafx.scene.media Media MediaPlayer)
+           (javafx.stage DirectoryChooser FileChooser Stage)
+           (javafx.util Duration)
+           (manifold.stream SplicedStream)
+           (org.controlsfx.control Notifications)
+           (org.fxmisc.flowless VirtualizedScrollPane))
   (:gen-class))
 
 
@@ -1790,30 +1798,6 @@
             (assoc :password password)))))
   (event-handler (assoc e :event/type ::edit-server)))
 
-
-(defmethod event-handler ::register [{:keys [email password server username]}]
-  (future
-    (try
-      (let [[server-url server-opts] server
-            {:keys [client-deferred]} (client/client server-url server-opts)
-            client @client-deferred
-            client-data {:client client
-                         :client-deferred client-deferred
-                         :server-url server-url}]
-        (swap! *state dissoc :password-confirm)
-        (message/send *state client-data
-          (str "REGISTER " (string/replace username #"\s" "") " " (u/base64-md5 password) " " email))
-        (loop []
-          (when-let [d (s/take! client)]
-            (when-let [m @d]
-              (log/info "(register) <" (str "'" m "'"))
-              (swap! *state assoc :register-response m)
-              (when-not (Thread/interrupted)
-                (recur)))))
-        (s/close! client))
-      (catch Exception e
-        (log/error e "Error registering with" server "as" username)))))
-
 (defmethod event-handler ::confirm-agreement
   [{:keys [client-data server-key verification-code]}]
   (future
@@ -2176,6 +2160,37 @@
               ^"[Ljava.lang.String;" cmdarray (into-array String command)]
           (log/info "Running" (pr-str command))
           (.exec runtime cmdarray nil nil))))))
+
+(defmethod event-handler ::register [{:keys [email password server username]}]
+  (future
+    (try
+      (let [[server-url server-opts] server
+            {:keys [client-deferred]} (client/client server-url server-opts)
+            client @client-deferred
+            client-data {:client client
+                         :client-deferred client-deferred
+                         :server-url server-url}]
+        (swap! *state dissoc :password-confirm)
+        (message/send *state client-data
+                      (str "REGISTER " (string/replace username #"\s" "") " " (u/base64-md5 password) " " email))
+        (loop []
+          (when-let [d (s/take! client)]
+            (when-let [m @d]
+              (log/info "(register) <" (str "'" m "'"))
+              (when (re-find #"^REGISTRATIONURL (.+)" m)
+                (browse-url
+                 (subs
+                  (str m)
+                  (count "REGISTRATIONURL ") 
+                 )
+                )
+                )
+              (swap! *state assoc :register-response (apply str (rest (string/split m #"\s+" 2))))
+              (when-not (Thread/interrupted)
+                (recur)))))
+        (s/close! client))
+      (catch Exception e
+        (log/error e "Error registering with" server "as" username)))))
 
 (defmethod event-handler ::desktop-browse-url
   [{:keys [url]}]
