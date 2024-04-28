@@ -75,7 +75,10 @@
                  :port 8201
                  :alias "Beyond All Reason (SSL)"
                  :ssl true}
-        servers [springlobby bar bar-ssl]]
+        techa {:host "lobby.techa-rts.com"
+               :port 8200
+               :alias "Tech Annihilation"}
+        servers [springlobby bar bar-ssl techa]]
     (->> servers
          (map (juxt server-url identity))
          (into {}))))
