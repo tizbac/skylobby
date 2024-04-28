@@ -1,5 +1,21 @@
 # Changelog
 
+## [0.9.31](https://github.com/skynet-gh/skylobby/releases/tag/0.9.31) - 2022-12-31
+
+- Use auto colors for BAR battles/replays
+- Add new techa server
+
+## [0.9.30](https://github.com/skynet-gh/skylobby/releases/tag/0.9.30) - 2022-12-30
+
+- Fix deb release filename
+- Update rpm Java version to 21
+- Disable Mac OS X build for now
+
+## [0.9.29](https://github.com/skynet-gh/skylobby/releases/tag/0.9.29) - 2022-12-30
+
+- Add BAR CDN maps download source
+- Update dependencies
+
 ## [0.9.28](https://github.com/skynet-gh/skylobby/releases/tag/0.9.28) - 2022-05-18
 
 - Add user right-click `Select Battle` to preview battle a player is in.

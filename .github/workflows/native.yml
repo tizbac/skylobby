@@ -6,13 +6,11 @@ on:
   release:
     types: [created]
   workflow_dispatch:
-env:
-  graal_version: 22.3.1
 jobs:
   windows:
     runs-on: windows-latest
     steps:
-      - uses: actions/checkout@v3.5.2
+      - uses: actions/checkout@v4.1.1
       - uses: ilammy/msvc-dev-cmd@v1.12.1
       - uses: microsoft/setup-msbuild@v1.3
         with:
@@ -23,25 +21,24 @@ jobs:
         with:
           minimum-size: 8GB
           maximum-size: 16GB
-      - uses: ayltai/setup-graalvm@v1
+      - uses: graalvm/setup-graalvm@v1
         with:
-          java-version: 11
-          graalvm-version: ${{ env.graal_version }}
-          native-image: true
-      - uses: actions/cache@v3.3.1
+          java-version: 21.0.1
+          distribution: 'graalvm'
+      - uses: actions/cache@v3.3.2
         with:
           path: ~/.m2/repository
           key: ${{ runner.os }}-maven-${{ hashFiles('deps.edn') }}
           restore-keys: |
             ${{ runner.os }}-maven-
-      - uses: DeLaGuardo/setup-clojure@10.3
+      - uses: DeLaGuardo/setup-clojure@12.1
         with:
           cli: latest
           github-token: ${{ secrets.GITHUB_TOKEN }}
       - run: git config --system core.longpaths true
-      - uses: actions/setup-node@v3.6.0
+      - uses: actions/setup-node@v4.0.1
         with:
-          node-version: '18'
+          node-version: '21'
           cache: 'npm'
       - run: npm install
       - run: clojure -M:cljs compile frontend
@@ -53,7 +50,7 @@ jobs:
         shell: powershell
       - run: compress-archive -path ".\*.dll","skylobby.exe" "skylobby-windows.zip" -compressionlevel optimal
         shell: powershell
-      - uses: actions/upload-artifact@v3.1.2
+      - uses: actions/upload-artifact@v4.0.0
         with:
           name: skylobby-windows.zip
           path: skylobby-windows.zip
@@ -68,60 +65,58 @@ jobs:
   mac:
     runs-on: macos-latest
     steps:
-      - uses: actions/checkout@v3.5.2
-      - uses: ayltai/setup-graalvm@v1
+      - uses: actions/checkout@v4.1.1
+      - uses: graalvm/setup-graalvm@v1
         with:
-          java-version: 11
-          graalvm-version: ${{ env.graal_version }}
-          native-image: true
-      - uses: actions/cache@v3.3.1
+          java-version: 21.0.1
+          distribution: 'graalvm'
+      - uses: actions/cache@v3.3.2
         with:
           path: ~/.m2/repository
           key: ${{ runner.os }}-maven-${{ hashFiles('deps.edn') }}
           restore-keys: |
             ${{ runner.os }}-maven-
-      - uses: DeLaGuardo/setup-clojure@10.3
+      - uses: DeLaGuardo/setup-clojure@12.1
         with:
           cli: latest
           github-token: ${{ secrets.GITHUB_TOKEN }}
-      - uses: actions/setup-node@v3.6.0
+      - uses: actions/setup-node@v4.0.1
         with:
-          node-version: '18'
+          node-version: '21'
           cache: 'npm'
       - run: npm install
       - run: clojure -M:cljs compile frontend
       - run: clojure -M:graal-deps:native-mac
-      - uses: actions/upload-artifact@v3.1.2
+      - uses: actions/upload-artifact@v4.0.0
         with:
           name: skylobby-mac
           path: skylobby
   linux:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3.5.2
-      - uses: ayltai/setup-graalvm@v1
+      - uses: actions/checkout@v4.1.1
+      - uses: graalvm/setup-graalvm@v1
         with:
-          java-version: 11
-          graalvm-version: ${{ env.graal_version }}
-          native-image: true
-      - uses: actions/cache@v3.3.1
+          java-version: 21.0.1
+          distribution: 'graalvm'
+      - uses: actions/cache@v3.3.2
         with:
           path: ~/.m2/repository
           key: ${{ runner.os }}-maven-${{ hashFiles('deps.edn') }}
           restore-keys: |
             ${{ runner.os }}-maven-
-      - uses: DeLaGuardo/setup-clojure@10.3
+      - uses: DeLaGuardo/setup-clojure@12.1
         with:
           cli: latest
           github-token: ${{ secrets.GITHUB_TOKEN }}
-      - uses: actions/setup-node@v3.6.0
+      - uses: actions/setup-node@v4.0.1
         with:
-          node-version: '18'
+          node-version: '21'
           cache: 'npm'
       - run: npm install
       - run: clojure -M:cljs compile frontend
       - run: clojure -M:graal-deps:native-linux
-      - uses: actions/upload-artifact@v3.1.2
+      - uses: actions/upload-artifact@v4.0.0
         with:
           name: skylobby-linux
           path: skylobby

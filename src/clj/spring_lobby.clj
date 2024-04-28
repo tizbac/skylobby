@@ -12,7 +12,7 @@
             [clojure.set]
             [clojure.string :as string]
             crypto.random
-            java-time
+            [java-time.api :as java-time]
             [manifold.deferred :as deferred]
             [manifold.stream :as s]
             [skylobby.auto-resources :as auto-resources]
