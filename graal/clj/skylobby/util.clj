@@ -64,7 +64,10 @@
     (str host ":" port)))
 
 (def default-servers
-  (let [springlobby {:host "lobby.springrts.com"
+  (let [mf {:host "mfserver3.metalfactions.pt"
+            :port default-server-port
+            :alias "Metal Factions"}
+        springlobby {:host "lobby.springrts.com"
                      :port default-server-port
                      :alias "Spring Official"}
         techa {:host "lobby.techa-rts.com"
@@ -78,7 +81,7 @@
                  :port 8201
                  :alias "Beyond All Reason (SSL)"
                  :ssl true}
-        servers [springlobby techa bar bar-ssl]]
+        servers [mf springlobby techa bar bar-ssl]]
     (->> servers
          (map (juxt server-url identity))
          (into {}))))
