@@ -13,7 +13,7 @@
 (set! *warn-on-reflection* true)
 
 
-(def app-update-browseurl "https://github.com/skynet-gh/skylobby/releases")
+(def app-update-browseurl "https://github.com/springraaar/skylobby/releases")
 
 
 (defn connect-button [{:fx/keys [context]}]
@@ -158,7 +158,7 @@
        :pref-width local-buttons-width
        :text "Report Bug"
        :on-action {:event/type :spring-lobby/desktop-browse-url
-                   :url "https://github.com/skynet-gh/skylobby/issues"}
+                   :url "https://github.com/springraaar/skylobby/issues"}
        :alignment :center-left
        :graphic-text-gap local-buttons-text-gap
        :graphic
@@ -371,7 +371,7 @@
      :style {:-fx-font-size 24}
      :text (str "skylobby " u/app-version)
      :on-action {:event/type :spring-lobby/desktop-browse-url
-                 :url "https://github.com/skynet-gh/skylobby/wiki/User-Guide"}}
+                 :url "https://github.com/springraaar/skylobby/wiki/User-Guide"}}
     {:fx/type :pane
      :pref-height 20}
     {:fx/type :h-box

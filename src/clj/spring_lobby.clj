@@ -1241,8 +1241,8 @@
             (update :window-states u/deep-merge window-states))))))
 
 
-(def app-update-url "https://api.github.com/repos/skynet-gh/skylobby/releases")
-(def app-update-browseurl "https://github.com/skynet-gh/skylobby/releases")
+(def app-update-url "https://api.github.com/repos/springraaar/skylobby/releases")
+(def app-update-browseurl "https://github.com/springraaar/skylobby/releases")
 
 
 (defn exit [exit-code]

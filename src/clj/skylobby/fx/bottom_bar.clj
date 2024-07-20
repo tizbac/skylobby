@@ -11,7 +11,7 @@
 (set! *warn-on-reflection* true)
 
 
-(def app-update-browseurl "https://github.com/skynet-gh/skylobby/releases")
+(def app-update-browseurl "https://github.com/springraaar/skylobby/releases")
 
 
 (def icon-size 20)
@@ -24,7 +24,7 @@
       (let [{:keys [latest]} app-update-available
             color "gold"
             version latest
-            url (str "https://github.com/skynet-gh/skylobby/releases/download/" version "/"
+            url (str "https://github.com/springraaar/skylobby/releases/download/" version "/"
                      "skylobby-" version "-"
                      (cond
                        (fs/mac?)
@@ -34,7 +34,7 @@
                        :else
                        "linux")
                      ".jar")
-            installer-url (str "https://github.com/skynet-gh/skylobby/releases/download/" version "/"
+            installer-url (str "https://github.com/springraaar/skylobby/releases/download/" version "/"
                                "skylobby-" version "_"
                                (cond
                                  (fs/mac?)

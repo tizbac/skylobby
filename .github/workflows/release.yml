@@ -194,4 +194,4 @@ jobs:
         env:
           DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
         with:
-          args: "https://github.com/skynet-gh/skylobby/releases/tag/${{ env.CI_REF_NAME }}"
+          args: "https://github.com/springraaar/skylobby/releases/tag/${{ env.CI_REF_NAME }}"
