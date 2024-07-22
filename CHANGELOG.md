@@ -1,6 +1,6 @@
 # Changelog
 
-## [0.9.31mf0](https://github.com/skynet-gh/skylobby/releases/tag/0.9.31mf0) - 2024-07-21
+## [0_9_31_mf0](https://github.com/skynet-gh/skylobby/releases/tag/0_9_31_mf0) - 2024-07-21
 
 - Change tracked repository for auto-updates from skynet-gh/skylobby to springraaar/skylobby
 - Add new MF server
