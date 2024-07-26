@@ -31,7 +31,7 @@
 (def default-server-port 8200)
 
 
-(def minimap-size 512) ; display size in UI
+(def minimap-size 384) ; display size in UI
 (def start-pos-r 10.0) ; start position radius
 
 (def default-client-encoding :utf-8)

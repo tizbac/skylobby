@@ -1,5 +1,10 @@
 # Changelog
 
+## [0.9.31001](https://github.com/skynet-gh/skylobby/releases/tag/0.9.31001) - 2024-07-26
+
+- Reduced registration agreement font size and set text wrapping to avoid horizontal scrolling
+- Modified default values for various battle room settings (table view with team-based coloring)
+
 ## [0.9.31000](https://github.com/skynet-gh/skylobby/releases/tag/0.9.31000) - 2024-07-21
 
 - Change tracked repository for auto-updates from skynet-gh/skylobby to springraaar/skylobby

@@ -250,7 +250,7 @@
      :battle-as-tab true
      :battle-layout "horizontal"
      :battles-layout "horizontal"
-     :battle-players-color-type "player"
+     :battle-players-color-type "team"
      :battle-resource-details true
      :chat-auto-complete false
      :chat-color-username true
@@ -267,7 +267,7 @@
      :players-table-columns {:skill true
                              :ally true
                              :team true
-                             :color true
+                             :color false
                              :status true
                              :spectator true
                              :faction true

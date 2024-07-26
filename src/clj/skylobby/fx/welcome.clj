@@ -340,6 +340,8 @@
           :style {:-fx-font-size 20}
           :text " Server agreement: "}
          {:fx/type :text-area
+          :style {:-fx-font-size "70%"
+                  :-fx-wrap-text true}
           :editable false
           :text (str agreement)}
          {:fx/type :h-box
