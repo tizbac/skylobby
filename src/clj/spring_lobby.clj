@@ -3557,7 +3557,6 @@
         (catch Exception e
           (log/error e "Error sending message" message "to channel" channel-name))))))
 
-
 (defmethod event-handler ::promote-discord [{:keys [data discord-channel discord-promoted server-key]}]
   (let [now (u/curr-millis)]
     (if (or (not discord-promoted)

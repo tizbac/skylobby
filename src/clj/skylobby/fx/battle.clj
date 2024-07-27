@@ -529,6 +529,15 @@
                         :client-data client-data
                         :users users}}}
                      {:fx/type :button
+                      :text "Promote"
+                      :on-action
+                      {:event/type :skylobby.fx.event.chat/send
+                       :channel-name channel-name
+                       :client-data client-data
+                       :message "!promote"
+                       :server-key server-key}}
+                     ;; disable promoting to discord, for now (july 2024)
+                     #_{:fx/type :button
                       :text (if discord-channel
                               (if discord-promote-cooldown
                                 (str "Promote every " (.toMinutesPart (java-time/duration discord/cooldown :millis)) "m")
