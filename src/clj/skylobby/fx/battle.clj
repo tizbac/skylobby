@@ -387,6 +387,7 @@
         interleave-ally-player-ids (fx/sub-val context :interleave-ally-player-ids)
         ready-on-unspec (fx/sub-val context :ready-on-unspec)
         show-team-skills (fx/sub-val context :show-team-skills)
+        show-player-colors (:color (fx/sub-val context :players-table-columns))
         spring-root (fx/sub-ctx context sub/spring-root server-key)
         battle-id (fx/sub-val context get-in [:by-server server-key :battle :battle-id])
         spring-starting (fx/sub-val context get-in [:spring-starting server-key battle-id])
@@ -475,7 +476,7 @@
                                   :client-data (when-not singleplayer client-data)
                                   :users users
                                   :username username}}])
-                  (when-not direct-connect
+                  (when (and (not direct-connect) show-player-colors)
                     [{:fx/type :button
                       :text "Fix Colors"
                       :on-action {:event/type :spring-lobby/battle-fix-colors
