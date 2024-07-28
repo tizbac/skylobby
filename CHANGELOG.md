@@ -1,11 +1,13 @@
 # Changelog
 
-## [0.9.31001](https://github.com/skynet-gh/skylobby/releases/tag/0.9.31001) - 2024-07-27
+## [0.9.31001](https://github.com/skynet-gh/skylobby/releases/tag/0.9.31001) - 2024-07-28
 
 - Reduced registration agreement font size and set text wrapping to avoid horizontal scrolling
 - Modified default values for various battle room settings (table view with team-based coloring)
 - "Promote to Discord" button in battle rooms renamed to "Promote" and triggers the standard "!promote" command
 (it promotes to specific lobby channels and in MF rooms this triggers promotion to Discord as well)
+- Battle room hides fix colors button if the players' color column is also hidden
+- Modified server tab labels to be more compact
 
 ## [0.9.31000](https://github.com/skynet-gh/skylobby/releases/tag/0.9.31000) - 2024-07-21
 

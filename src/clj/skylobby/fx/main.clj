@@ -484,7 +484,11 @@
               {:fx/type :tab
                :id (str server-key)
                :closable true
-               :graphic {:fx/type :label
+               :graphic {:fx/type :text-flow
+                   :children [{:fx/type :label
+                         :text (name (:server-type server-key)) 
+                         :style {:-fx-font-size 18}}
+                         {:fx/type :label
                          :text (str (name (:server-type server-key))
                                     " "
                                     (:username server-key)
@@ -492,7 +496,8 @@
                                     (:hostname server-key)
                                     ":"
                                     (:port server-key))
-                         :style {:-fx-font-size 18}}
+                         :style {:-fx-font-size 13 :-fx-opacity 0.7}}
+                         ]}
                :on-close-request {:event/type :spring-lobby/disconnect
                                   :server-key server-key}
                :content
@@ -530,11 +535,15 @@
                 {:fx/type :tab
                  :id (str server-key)
                  :style-class classes
-                 :graphic {:fx/type :label
-                           :text (str (let [[_ server-config] (fx/sub-val context get-in [:by-server server-key :server])]
+                 :graphic {:fx/type :text-flow
+                   :children [{:fx/type :label
+                           :text (let [[_ server-config] (fx/sub-val context get-in [:by-server server-key :server])]
                                         (:alias server-config))
-                                      " (" server-key ")")
                            :style {:-fx-font-size 18}}
+                           {:fx/type :label
+                           :text (str " (" server-key ")")
+                           :style {:-fx-font-size 13 :-fx-opacity 0.7}}
+                           ]}
                  :on-close-request {:event/type :spring-lobby/disconnect
                                     :server-key server-key}
                  :content
