@@ -1,14 +1,25 @@
 # skylobby [![license](https://img.shields.io/github/license/skynet-gh/skylobby)](LICENSE)
 
-A Multiplayer Lobby Client that lets the user connect to various multiplayer servers which use [uberserver's](https://github.com/spring/uberserver) protocol and host games which use the [Spring RTS](https://springrts.com/) or [Recoil](https://beyond-all-reason.github.io/spring/) game engines. It'll let users register and connect to the various servers, join battle rooms and will automatically download the required game, map and engine packages. After setting up and downloading the requirements, users can play in the hosted rooms, set up their own or start local single player battles.
+A Multiplayer Lobby Client for servers which use [uberserver's](https://github.com/spring/uberserver) protocol and host games which run on the [Spring RTS](https://springrts.com/) or [Recoil](https://beyond-all-reason.github.io/spring/) game engines. It'll let users register and stay connected to multiple servers simultaneously, join battle rooms and will automatically download the required game, map and engine packages. After setting up and downloading the requirements, users can play in the hosted rooms, set up their own or start local single player battles.
 
 This is a fork from the original [Skylobby project](https://github.com/skynet-gh/skylobby/), starting from release 0.9.31. Releases will stick to the a.b.cXXX convention where the a.b.c prefix matches the latest release it's based off of from the original repository and the XXX is the local release number (done for compatibility with the [windows versioning constraints](https://stackoverflow.com/a/52414691) and the installer generation workflow).
 
-This version adds the Metal Factions server to the default server list and has a few other UI improvements and changes to default settings to better fit the requirements of the Metal Factions community. It's still meant to be a generic lobby client, though.
+Although it was tweaked with the Metal Factions community in mind, it's still meant to be a generic lobby client for various games. Key changes:
+- Adds the Metal Factions server to the default server list
+- Changes the tracked repository for auto-updates to this one
+- Has a few UI improvements and changes to default settings
+(check the release notes or change log for details)
+
+Users can change to this or revert back to the original skylobby by running the corresponding installer regardless of the existing installation (previous settings are kept, though, so new defaults may not apply).
 
 ## Usage
 
-Install instructions and basic usage can be found in the [User Guide](https://github.com/skynet-gh/skylobby/wiki/User-Guide).
+The recommended way to install skylobby is to run the installer package for the operating system:
+- [Windows](https://github.com/springraaar/skylobby/releases/download/0.9.31001/skylobby-0.9.31001_windows.msi)
+- [Ubuntu/Debian](https://github.com/springraaar/skylobby/releases/download/0.9.31001/skylobby-0.9.31001_linux-amd64.deb)
+- [Fedora/SUSE](https://github.com/springraaar/skylobby/releases/download/0.9.31001/skylobby-0.9.31001_linux-amd64.rpm)
+
+The original install instructions and basic usage can be found in the [User Guide](https://github.com/skynet-gh/skylobby/wiki/User-Guide).
 
 Feel free to open an [issue](https://github.com/springraaar/skylobby/issues) if you find a bug or have a feature request.
 
