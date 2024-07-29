@@ -1054,6 +1054,7 @@
         startpostype (fx/sub-ctx context sub/startpostype server-key)
         username (fx/sub-val context get-in [:by-server server-key :username])
         users (fx/sub-val context get-in [:by-server server-key :users])
+        battle-opt-tab-label-font-size 12
         minimap-size (fx/sub-val context :minimap-size)
         minimap-size (or (u/to-number minimap-size)
                          fx.minimap/default-minimap-size)]
@@ -1065,7 +1066,8 @@
      :tabs
      [{:fx/type :tab
        :graphic {:fx/type :label
-                 :text "map"}
+                 :text "Map"
+                 :style {:-fx-font-size battle-opt-tab-label-font-size}}
        :closable false
        :content
        {:fx/type :scroll-pane
@@ -1271,7 +1273,8 @@
                              :server-key server-key}}]))}]}}}
       {:fx/type :tab
        :graphic {:fx/type :label
-                 :text "modoptions"}
+                 :text "Game Options"
+                 :style {:-fx-font-size battle-opt-tab-label-font-size}}
        :closable false
        :content
        {:fx/type :v-box
@@ -1284,7 +1287,8 @@
           :singleplayer singleplayer}]}}
       {:fx/type :tab
        :graphic {:fx/type :label
-                 :text "mapoptions"}
+                 :text "Map Options"
+                 :style {:-fx-font-size battle-opt-tab-label-font-size}}
        :closable false
        :content
        {:fx/type :v-box
@@ -1298,7 +1302,8 @@
           :singleplayer singleplayer}]}}
       {:fx/type :tab
        :graphic {:fx/type :label
-                 :text "Spring settings"}
+                 :text "Engine Settings"
+                 :style {:-fx-font-size battle-opt-tab-label-font-size}}
        :closable false
        :content
        (let [{:keys [auto-backup backup-name confirmed game-specific results]} spring-settings

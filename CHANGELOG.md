@@ -8,6 +8,7 @@
 (it promotes to specific lobby channels and in MF rooms this triggers promotion to Discord as well)
 - Battle room hides fix colors button if the players' color column is also hidden
 - Modified server tab labels to be more compact
+- Improved battle options tabs' labels
 
 ## [0.9.31000](https://github.com/skynet-gh/skylobby/releases/tag/0.9.31000) - 2024-07-21
 
