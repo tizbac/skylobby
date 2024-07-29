@@ -1,12 +1,17 @@
-# skylobby [![test](https://github.com/skynet-gh/skylobby/actions/workflows/test.yml/badge.svg)](https://github.com/skynet-gh/skylobby/actions/workflows/test.yml) [![license](https://img.shields.io/github/license/skynet-gh/skylobby)](LICENSE)
+# skylobby [![license](https://img.shields.io/github/license/skynet-gh/skylobby)](LICENSE)
 
-A [Spring RTS](https://springrts.com/) lobby for [uberserver](https://github.com/spring/uberserver).
+A Multiplayer Lobby Client that lets the user connect to various multiplayer servers which use [uberserver's](https://github.com/spring/uberserver) protocol and host games which use the [Spring RTS](https://springrts.com/) or [Recoil](https://beyond-all-reason.github.io/spring/) game engines. It'll let users register and connect to the various servers, join battle rooms and will automatically download the required game, map and engine packages. After setting up and downloading the requirements, users can play in the hosted rooms, set up their own or start local single player battles.
+
+This is a fork from the original [Skylobby project](https://github.com/skynet-gh/skylobby/), starting from release 0.9.31. Releases will stick to the a.b.c<XXX> convention where the a.b.c prefix matches the latest release it's based off of from the original repository.
+<sub>(done for compatibility with the [windows versioning constraints](https://stackoverflow.com/a/52414691) and the installer generation workflow)</sub>
+
+This version adds the Metal Factions server to the default server list and has a few other UI improvements and changes to default settings to better fit the requirements of the Metal Factions community. It's still meant to be a generic lobby client, though.
 
 ## Usage
 
 Install instructions and basic usage can be found in the [User Guide](https://github.com/skynet-gh/skylobby/wiki/User-Guide).
 
-Feel free to open an [issue](https://github.com/skynet-gh/skylobby/issues) if you find a bug or have a feature request.
+Feel free to open an [issue](https://github.com/springraaar/skylobby/issues) if you find a bug or have a feature request.
 
 ## Dev
 
