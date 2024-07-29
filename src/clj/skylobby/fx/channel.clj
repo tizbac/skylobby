@@ -43,7 +43,7 @@
    "!wakeup"])
 
 
-(def default-font-size 18)
+(def default-font-size 16)
 (def font-icon-size 20)
 
 (defn font-size-or-default [font-size]
