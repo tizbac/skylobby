@@ -178,20 +178,20 @@ jobs:
           asset_path: ./${{ env.CI_REPOSITORY_NAME }}-${{ env.CI_REF_NAME }}.msi
           asset_name: ${{ env.CI_REPOSITORY_NAME }}-windows.msi
           asset_content_type: application/x-msi
-  mark-latest-release:
-    needs: [build-linux, build-windows]
-    runs-on: ubuntu-latest
-    steps:
-      - uses: ncipollo/release-action@v1.13.0
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          prerelease: false
-          allowUpdates: true
-          omitBodyDuringUpdate: true
-          omitNameDuringUpdate: true
-      - uses: FranzDiebold/github-env-vars-action@v2.7.0
-      - uses: Ilshidur/action-discord@0.3.2
-        env:
-          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
-        with:
-          args: "https://github.com/springraaar/skylobby/releases/tag/${{ env.CI_REF_NAME }}"
+            #  mark-latest-release:
+            #    needs: [build-linux, build-windows]
+            #    runs-on: ubuntu-latest
+            #    steps:
+            #      - uses: ncipollo/release-action@v1.13.0
+            #        with:
+            #          token: ${{ secrets.GITHUB_TOKEN }}
+            #          prerelease: false
+            #          allowUpdates: true
+            #          omitBodyDuringUpdate: true
+            #          omitNameDuringUpdate: true
+            #      - uses: FranzDiebold/github-env-vars-action@v2.7.0
+            #      - uses: Ilshidur/action-discord@0.3.2
+            #        env:
+            #          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
+            #        with:
+            #          args: "https://github.com/springraaar/skylobby/releases/tag/${{ env.CI_REF_NAME }}"
