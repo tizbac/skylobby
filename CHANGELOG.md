@@ -1,5 +1,9 @@
 # Changelog
 
+## [0.9.31002](https://github.com/skynet-gh/skylobby/releases/tag/0.9.31002) - 2024-08-01
+
+- Updated some github workflows : removed cryogen and the action to mark release on discord
+
 ## [0.9.31001](https://github.com/skynet-gh/skylobby/releases/tag/0.9.31001) - 2024-07-29
 
 - Reduced registration agreement font size and set text wrapping to avoid horizontal scrolling
