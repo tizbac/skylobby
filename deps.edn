@@ -272,7 +272,7 @@
                "--no-fallback"
                "--report-unsupported-elements-at-runtime"
 
-               "-J-Xmx6g"
+               "-J-Xmx1g"
                "-H:+StaticExecutableWithDynamicLibC"
                "-H:+ReportExceptionStackTraces"
 
@@ -324,7 +324,7 @@
                "--no-fallback"
                "--report-unsupported-elements-at-runtime"
 
-               "-J-Xmx7g"
+               "-J-Xmx1g"
 
                "-H:+ReportExceptionStackTraces"
 
@@ -379,7 +379,7 @@
                "--no-fallback"
                "--report-unsupported-elements-at-runtime"
 
-               "-J-Xmx6g"
+               "-J-Xmx1g"
                "-H:+ReportExceptionStackTraces"
 
                ; build time

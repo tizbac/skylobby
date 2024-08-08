@@ -54,6 +54,10 @@ And then run it with:
 ```bash
 java -jar target/skylobby.jar
 ```
+The previous command lets the JVM grab way more RAM than the application needs, to get a smaller memory footprint, try
+```bash
+java -jar -XX:+ExitOnOutOfMemoryError -XX:CompressedClassSpaceSize=50m -XX:ReservedCodeCacheSize=50m -XX:MaxMetaspaceSize=200m -XX:MaxRAM=1g -XX:MaxRAMPercentage=80 -XX:+UseG1GC -XX:G1PeriodicGCSystemLoadThreshold=0 -XX:-G1PeriodicGCInvokesConcurrent -XX:G1PeriodicGCInterval=30000 -XX:MaxHeapFreeRatio=8 -XX:MinHeapFreeRatio=4 target/skylobby.jar
+```
 
 To build an installer, then run `jpackage` for your platform, for example on Windows
 
