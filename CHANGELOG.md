@@ -1,8 +1,9 @@
 # Changelog
 
-## [0.9.31002](https://github.com/skynet-gh/skylobby/releases/tag/0.9.31002) - 2024-08-01
+## [0.9.31002](https://github.com/skynet-gh/skylobby/releases/tag/0.9.31002) - 2024-08-08
 
 - Updated some github workflows : removed cryogen and the action to mark release on discord
+- Updated native build options to reduce memory footprint
 
 ## [0.9.31001](https://github.com/skynet-gh/skylobby/releases/tag/0.9.31001) - 2024-07-29
 
