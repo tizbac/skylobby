@@ -248,7 +248,7 @@
     org.clojure/tools.namespace {:mvn/version "1.4.4"}
     pjstadig/humane-test-output {:mvn/version "0.11.0"}
     reply/reply {:mvn/version "0.5.1"}}
-   :jvm-opts ["-server" "-Xms128m" "-Xmx8g" "-XX:+DoEscapeAnalysis" "-XX:+ExitOnOutOfMemoryError"
+   :jvm-opts ["-server" "-Xms128m" "-Xmx1g" "-XX:+DoEscapeAnalysis" "-XX:+ExitOnOutOfMemoryError"
               "-XX:+UseCompressedOops" "-XX:-OmitStackTraceInFastThrow"
               "-Dprism.allowhidpi=\"true\"" "-Dglass.win.minHiDPI=1"]
    :main-opts ["--main" "repl"]}
@@ -271,7 +271,7 @@
                "--no-fallback"
                "--report-unsupported-elements-at-runtime"
 
-               "-J-Xmx1g"
+               "-J-Xmx6g"
                "-H:+StaticExecutableWithDynamicLibC"
                "-H:+ReportExceptionStackTraces"
 
@@ -323,7 +323,7 @@
                "--no-fallback"
                "--report-unsupported-elements-at-runtime"
 
-               "-J-Xmx1g"
+               "-J-Xmx6g"
 
                "-H:+ReportExceptionStackTraces"
 
@@ -378,7 +378,7 @@
                "--no-fallback"
                "--report-unsupported-elements-at-runtime"
 
-               "-J-Xmx1g"
+               "-J-Xmx6g"
                "-H:+ReportExceptionStackTraces"
 
                ; build time
