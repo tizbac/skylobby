@@ -1,9 +1,9 @@
 # Changelog
 
-## [0.9.31002](https://github.com/skynet-gh/skylobby/releases/tag/0.9.31002) - 2024-08-09
+## [0.9.31002](https://github.com/skynet-gh/skylobby/releases/tag/0.9.31002) - 2024-08-10
 
 - Updated some github workflows : removed cryogen and the action to mark release on discord
-- Updated native build options to reduce memory footprint
+- Updated run properties set by the linux installer to reduce memory footprint
 - Added lib folder with some jars to avoid some external dependencies
 (namely griffon-flagicons which is no longer available, apparently)
 
