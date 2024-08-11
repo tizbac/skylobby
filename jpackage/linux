@@ -1,4 +1,4 @@
 --linux-shortcut
 --icon "resources/icon128.png"
 --resource-dir "dist/linux"
---java-options "-XX:MaxRAM=2g -XX:MaxRAMPercentage=80 -XX:+UseG1GC -XX:G1PeriodicGCSystemLoadThreshold=0 -XX:-G1PeriodicGCInvokesConcurrent -XX:G1PeriodicGCInterval=30000 -XX:MaxHeapFreeRatio=8 -XX:MinHeapFreeRatio=4 target/skylobby.jar -XX:+ExitOnOutOfMemoryError -XX:+DoEscapeAnalysis -XX:+UseCompressedOops --add-opens=java.base/java.nio=ALL-UNNAMED --add-opens=java.base/sun.nio.ch=ALL-UNNAMED"
+--java-options "-XX:MaxRAM=2g -XX:MaxRAMPercentage=80 -XX:+UseG1GC -XX:G1PeriodicGCSystemLoadThreshold=0 -XX:-G1PeriodicGCInvokesConcurrent -XX:G1PeriodicGCInterval=30000 -XX:MaxHeapFreeRatio=8 -XX:MinHeapFreeRatio=4 -XX:+ExitOnOutOfMemoryError -XX:+DoEscapeAnalysis -XX:+UseCompressedOops --add-opens=java.base/java.nio=ALL-UNNAMED --add-opens=java.base/sun.nio.ch=ALL-UNNAMED"

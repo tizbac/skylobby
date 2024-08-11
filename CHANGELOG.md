@@ -1,6 +1,6 @@
 # Changelog
 
-## [0.9.31003](https://github.com/skynet-gh/skylobby/releases/tag/0.9.31003) - 2024-08-11
+## [0.9.31004](https://github.com/skynet-gh/skylobby/releases/tag/0.9.31004) - 2024-08-11
 
 - Updated some github workflows : removed cryogen and the action to mark release on discord
 - Updated run properties set by the linux installer to reduce memory footprint
