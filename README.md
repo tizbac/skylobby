@@ -15,9 +15,9 @@ Users can change to this or revert back to the original skylobby by running the 
 ## Usage
 
 The recommended way to install skylobby is to run the installer package for the operating system:
-- [Windows](https://github.com/springraaar/skylobby/releases/download/0.9.31001/skylobby-0.9.31001_windows.msi)
-- [Ubuntu/Debian](https://github.com/springraaar/skylobby/releases/download/0.9.31001/skylobby-0.9.31001_linux-amd64.deb)
-- [Fedora/SUSE](https://github.com/springraaar/skylobby/releases/download/0.9.31001/skylobby-0.9.31001_linux-amd64.rpm)
+- [Windows](https://github.com/springraaar/skylobby/releases/download/0.9.31003/skylobby-0.9.31003_windows.msi)
+- [Ubuntu/Debian](https://github.com/springraaar/skylobby/releases/download/0.9.31003/skylobby-0.9.31003_linux-amd64.deb)
+- [Fedora/SUSE](https://github.com/springraaar/skylobby/releases/download/0.9.31003/skylobby-0.9.31003_linux-amd64.rpm)
 
 The original install instructions and basic usage can be found in the [User Guide](https://github.com/skynet-gh/skylobby/wiki/User-Guide).
 
@@ -56,7 +56,7 @@ java -jar target/skylobby.jar
 ```
 The previous command lets the JVM grab way more RAM than the application needs, to get a smaller memory footprint, try
 ```bash
-java -jar -XX:+ExitOnOutOfMemoryError -XX:CompressedClassSpaceSize=50m -XX:ReservedCodeCacheSize=50m -XX:MaxMetaspaceSize=200m -XX:MaxRAM=1g -XX:MaxRAMPercentage=80 -XX:+UseG1GC -XX:G1PeriodicGCSystemLoadThreshold=0 -XX:-G1PeriodicGCInvokesConcurrent -XX:G1PeriodicGCInterval=30000 -XX:MaxHeapFreeRatio=8 -XX:MinHeapFreeRatio=4 target/skylobby.jar
+java -jar -XX:+ExitOnOutOfMemoryError -XX:MaxRAM=2g -XX:MaxRAMPercentage=80 -XX:+UseG1GC -XX:G1PeriodicGCSystemLoadThreshold=0 -XX:-G1PeriodicGCInvokesConcurrent -XX:G1PeriodicGCInterval=30000 -XX:MaxHeapFreeRatio=8 -XX:MinHeapFreeRatio=4 target/skylobby.jar
 ```
 
 To build an installer, then run `jpackage` for your platform, for example on Windows
