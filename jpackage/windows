@@ -2,4 +2,4 @@
 --type "msi"
 --icon "resources/icon.ico"
 --win-dir-chooser
---java-options "-Dprism.allowhidpi=true -Dglass.win.minHiDPI=1"
+--java-options "-XX:+UseZGC -Xmx2g -XX:+ExitOnOutOfMemoryError -XX:+DoEscapeAnalysis -XX:+UseCompressedOops --add-opens=java.base/java.nio=ALL-UNNAMED --add-opens=java.base/sun.nio.ch=ALL-UNNAMED -Dprism.allowhidpi=true -Dglass.win.minHiDPI=1"

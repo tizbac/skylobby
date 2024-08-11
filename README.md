@@ -43,24 +43,27 @@ Logs are written to `repl.log`.
 
 ### Jar
 
-To build an executable jar file:
+To build and run executable jar files, it's advisable to use Java 21 or later. Current installer packages use Java SE builds based on OpenJDK from [Adoptium](https://adoptium.net/temurin/releases/), version 21.0.4.
+
+Building the jar file:
 
 ```bash
 clojure -M:uberjar
 ```
+NOTE: you can also download the latest .jar file from the [releases page](https://github.com/springraaar/skylobby/releases).
 
-And then run it with:
+Running the jar file:
 
 ```bash
 java -jar target/skylobby.jar
 ```
 The previous command lets the JVM grab way more RAM than the application needs, to get a smaller memory footprint, try
 ```bash
-java -jar -XX:+ExitOnOutOfMemoryError -XX:MaxRAM=2g -XX:MaxRAMPercentage=80 -XX:+UseG1GC -XX:G1PeriodicGCSystemLoadThreshold=0 -XX:-G1PeriodicGCInvokesConcurrent -XX:G1PeriodicGCInterval=30000 -XX:MaxHeapFreeRatio=8 -XX:MinHeapFreeRatio=4 target/skylobby.jar
+java -jar -XX:+ExitOnOutOfMemoryError -XX:MaxRAM=2g -XX:MaxRAMPercentage=80 -XX:+UseG1GC -XX:+UseCompressedOops -XX:G1PeriodicGCSystemLoadThreshold=0 -XX:-G1PeriodicGCInvokesConcurrent -XX:G1PeriodicGCInterval=30000 -XX:MaxHeapFreeRatio=8 -XX:MinHeapFreeRatio=4 target/skylobby.jar
 ```
 
 To build an installer, then run `jpackage` for your platform, for example on Windows
 
 ```bash
-jpackage @jpackage/common @jpackage/windows
+jpackage @jpackage/lobby @jpackage/windows
 ```
