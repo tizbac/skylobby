@@ -266,6 +266,7 @@
 (defn engine-download-source [engine-version]
   (cond
     (string/blank? engine-version) nil
+    (re-find #"20[0-9][0-9]\." engine-version) "BAR GitHub spring"
     (string/includes? engine-version "BAR") "BAR GitHub spring"
     :else "SpringRTS buildbot"))
 

@@ -1,5 +1,9 @@
 # Changelog
 
+## [0.9.31005](WIP) - 2025-02-XX
+
+- Made engine downloads compatible with 2025+ Recoil engine versions
+
 ## [0.9.31004](https://github.com/skynet-gh/skylobby/releases/tag/0.9.31004) - 2024-08-11
 
 - Updated some github workflows : removed cryogen and the action to mark release on discord

@@ -152,8 +152,9 @@
       (let [uri (java.net.URI. url)]
         (last (string/split (.getPath uri) #"/")))
       (catch Exception e
-        (log/trace e "Error parsing url" url)
-        (log/error "Error parsing url" url "falling back on manual")
+        ; this is apparently failing on linux, but the fallback works so it's harmless. Commented out to avoid thousands of misleading error log lines
+        ;(log/trace e "Error parsing url" url)
+        ;(log/error "Error parsing url" url "falling back on manual")
         (last (string/split url #"/"))))))
 
 (defn bar-replay-download-url [filename-or-id]
@@ -233,7 +234,8 @@
                :resource-date date
                :resource-updated now}))))))
 
-
+(def bar-engine-2025-re
+  #"^spring_bar_\.rel([0-9a-z\-]+)\.([^_]*)_([0-9a-z\-]+)\.7z$")
 (def bar-engine-re
   #"^spring_bar_\.BAR\.([^_]*)_([0-9a-z\-]+)\.7z$")
 (def bar-105-engine-re
@@ -244,6 +246,7 @@
   (boolean
     (when filename
       (or
+        (re-find bar-engine-2025-re filename)
         (re-find bar-engine-re filename)
         (re-find bar-105-engine-re filename)))))
 
@@ -263,11 +266,11 @@
   ([version platform]
    (when version
      (let [bar-platform (get bar-platforms platform)]
-       (if (string/includes? version "BAR105")
-         (str "spring_bar_.BAR105." (first (string/split version #"\s"))
-              "_" bar-platform "-minimal-portable.7z")
-         (str "spring_bar_.BAR." (first (string/split version #"\s"))
-              "_" bar-platform "-minimal-portable.7z"))))))
+       (cond
+           (string/includes? version "BAR105") (str "spring_bar_.BAR105." (first (string/split version #"\s")) "_" bar-platform "-minimal-portable.7z")
+           (string/includes? version "BAR") (str "spring_bar_.BAR." (first (string/split version #"\s")) "_" bar-platform "-minimal-portable.7z")
+           (re-find #"20[0-9][0-9]\." version) (str "spring_bar_.rel2501." (first (string/split version #"\s")) "_" bar-platform "-minimal-portable.7z")
+       )))))
 
 
 (defn get-github-release-downloadables
