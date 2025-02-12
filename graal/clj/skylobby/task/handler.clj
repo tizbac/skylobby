@@ -631,7 +631,25 @@
             detected-sdp-atom (atom nil)]
         (log/info "Running '" command "'")
         (let [^"[Ljava.lang.String;" cmdarray (into-array String command)
-              ^"[Ljava.lang.String;" envp nil
+              ^"[Ljava.lang.String;" envp 
+                (if (or (string/includes? rapid-id "Beyond All Reason") (string/includes? rapid-id "byar"))
+                   (do
+                      ;; 1. ensure rapid tag resolution order is set in springsettings file
+                      (let [
+                         config-file    (io/file (str (fs/wslpath root) "/springsettings.cfg"))
+                         specific-line  "RapidTagResolutionOrder=repos-cdn.beyondallreason.dev"]
+                      (if (.exists config-file)
+                         (let [existing-lines (set (line-seq (io/reader config-file)))]
+                            (when-not (contains? existing-lines specific-line)
+                               (spit config-file (str specific-line "\n") :append true)))
+                               ;; if the file does not exist, create it with the line
+                               (spit config-file (str specific-line "\n"))))
+                               ;; 2. Return the environment variables array.
+                               (into-array String
+                                 ["PRD_RAPID_USE_STREAMER=false"
+                                 "PRD_RAPID_REPO_MASTER=https://repos-cdn.beyondallreason.dev/repos.gz"
+                                 "PRD_HTTP_SEARCH_URL=https://files-cdn.beyondallreason.dev/find"]))
+                               nil)
               ^java.lang.Process process (.exec runtime cmdarray envp root)]
           (future
             (with-open [^java.io.BufferedReader reader (io/reader (.getInputStream process))]

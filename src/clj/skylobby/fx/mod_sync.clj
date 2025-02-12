@@ -298,7 +298,10 @@
                                 :force true
                                 :mod-name mod-name
                                 :spring-isolation-dir spring-isolation-dir}})})
-                   [rapid-id mod-name])))
+                   ; omit the rapid-id or ":test" option because redundant and also wasn't greening up after completion, for some reason
+                   ;[rapid-id mod-name]
+                   [mod-name]
+                   )))
              (let [
                    importable (fx/sub-ctx context sub/could-be-this-mod-import mod-name)
                    resource-file (:resource-file importable)

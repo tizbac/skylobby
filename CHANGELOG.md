@@ -3,15 +3,16 @@
 ## [0.9.31005](WIP) - 2025-02-XX
 
 - Made engine downloads compatible with 2025+ Recoil engine versions
+- Fixed game downloads for "Beyond All Reason" (interacts with BAR's rapid server for BAR updates specifically)
 
-## [0.9.31004](https://github.com/skynet-gh/skylobby/releases/tag/0.9.31004) - 2024-08-11
+## [0.9.31004](https://github.com/springraaar/skylobby/releases/tag/0.9.31004) - 2024-08-11
 
 - Updated some github workflows : removed cryogen and the action to mark release on discord
 - Updated run properties set by the linux installer to reduce memory footprint
 - Added lib folder with some jars to avoid some external dependencies for the build process
 (namely griffon-flagicons which is no longer available, apparently)
 
-## [0.9.31001](https://github.com/skynet-gh/skylobby/releases/tag/0.9.31001) - 2024-07-29
+## [0.9.31001](https://github.com/springraaar/skylobby/releases/tag/0.9.31001) - 2024-07-29
 
 - Reduced registration agreement font size and set text wrapping to avoid horizontal scrolling
 - Modified default values for various battle room settings (table view with team-based coloring)
@@ -21,7 +22,7 @@
 - Modified server tab labels to be more compact
 - Improved battle options tabs' labels
 
-## [0.9.31000](https://github.com/skynet-gh/skylobby/releases/tag/0.9.31000) - 2024-07-21
+## [0.9.31000](https://github.com/springraaar/skylobby/releases/tag/0.9.31000) - 2024-07-21
 
 - Change tracked repository for auto-updates from skynet-gh/skylobby to springraaar/skylobby
 - Add new MF server
