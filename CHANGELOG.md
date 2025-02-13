@@ -1,6 +1,6 @@
 # Changelog
 
-## [0.9.31005](WIP) - 2025-02-XX
+## [0.9.31005](https://github.com/springraaar/skylobby/releases/tag/0.9.31005) - 2025-02-13
 
 - Made engine downloads compatible with 2025+ Recoil engine versions
 - Fixed game downloads for "Beyond All Reason" (interacts with BAR's rapid server for BAR updates specifically)

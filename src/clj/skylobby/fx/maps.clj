@@ -18,7 +18,7 @@
 (set! *warn-on-reflection* true)
 
 
-(def maps-window-width 1600)
+(def maps-window-width 648)
 (def maps-window-height 800)
 
 
