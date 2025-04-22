@@ -234,6 +234,8 @@
                :resource-date date
                :resource-updated now}))))))
 
+(def recoil-engine-re
+  #"^recoil_[0-9a-z\-\.\_]+\.7z$")
 (def bar-engine-2025-re
   #"^spring_bar_\.rel([0-9a-z\-]+)\.([^_]*)_([0-9a-z\-]+)\.7z$")
 (def bar-engine-re
@@ -246,6 +248,7 @@
   (boolean
     (when filename
       (or
+        (re-find recoil-engine-re filename)
         (re-find bar-engine-2025-re filename)
         (re-find bar-engine-re filename)
         (re-find bar-105-engine-re filename)))))
@@ -260,16 +263,23 @@
    "win32" "windows-64"
    "win64" "windows-64"})
 
+(def recoil-platforms
+  {"linux64" "amd64-linux"
+   "win32" "amd64-windows"
+   "win64" "amd64-windows"})
+
 (defn bar-engine-filename
   ([version]
    (bar-engine-filename version (fs/platform)))
   ([version platform]
    (when version
-     (let [bar-platform (get bar-platforms platform)]
+     (let [bar-platform (get bar-platforms platform)
+          recoil-platform (get recoil-platforms platform)] 
        (cond
+           (re-find #"20[0-9][0-9]\.01" version) (str "spring_bar_.rel2501." (first (string/split version #"\s")) "_" bar-platform "-minimal-portable.7z")
            (string/includes? version "BAR105") (str "spring_bar_.BAR105." (first (string/split version #"\s")) "_" bar-platform "-minimal-portable.7z")
            (string/includes? version "BAR") (str "spring_bar_.BAR." (first (string/split version #"\s")) "_" bar-platform "-minimal-portable.7z")
-           (re-find #"20[0-9][0-9]\." version) (str "spring_bar_.rel2501." (first (string/split version #"\s")) "_" bar-platform "-minimal-portable.7z")
+           (re-find #"20[0-9][0-9]\." version) (str "recoil_" (first (string/split version #"\s")) "_" recoil-platform ".7z")
        )))))
 
 
