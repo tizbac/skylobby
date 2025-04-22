@@ -3,6 +3,7 @@
 ## [0.9.31006](https://github.com/springraaar/skylobby/releases/tag/0.9.31006) - 2025-04-22
 
 - Fixed Recoil engine downloads to match the latest conventions (changed again in march 2025)
+- Updated release workflow to avoid deprecated OS and action
 
 ## [0.9.31005](https://github.com/springraaar/skylobby/releases/tag/0.9.31005) - 2025-02-13
 
