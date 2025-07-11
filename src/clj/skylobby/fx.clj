@@ -62,16 +62,54 @@
 ; https://tomsondev.bestsolution.at/2014/03/13/eclipse-on-javafx-get-dark-the-power-of-javafx-css
 (def grey-style-data
   {".root"
-   {:-fx-base "rgb(50, 50, 50)"
-    :-fx-accent "rgb(80, 80, 80)"
-    :-fx-background "rgb(50, 50, 50)"
+   {:-fx-base "rgb(80, 80, 80)"
+    :-fx-accent "rgb(110, 110, 110)"
+    :-fx-background "rgb(60, 60, 60)"
     ;:-fx-background-color "rgb(0, 0, 0, 255)" ; tooltips
-    :-fx-control-inner-background "rgb(50, 50, 50)"
-    :-fx-selection-bar-non-focused "rgb(60, 60, 60)"}
+    :-fx-control-inner-background "rgb(90, 90, 90)"
+    :-fx-selection-bar-non-focused "rgb(120, 120, 120)"
+    :-fx-focus-color "transparent"
+    :-fx-faint-focus-color "transparent"}
+   ".tab"
+   {:-fx-base "rgb(70, 70, 70)"
+    :-fx-background "rgb(90, 90, 90)"
+    :-fx-accent "rgb(0, 0, 0)"}
+   ".tab:selected"
+   {:-fx-background "rgb(60, 60, 60)"
+    :-fx-accent "rgb(160, 160, 160)"}
    ".styled-text-area"
-   {:-fx-background-color "rgb(50, 50, 50)"}
+   {:-fx-background-color "rgb(40, 40, 40)"}
    ".text-field"
    {:-fx-prompt-text-fill "rgb(180, 180, 180)"}
+   ".scroll-bar .thumb"
+   {:-fx-background-radius "2, 1"
+    :-fx-background-insets "3, 4"}
+   ".scroll-bar:vertical .thumb"
+   {:-fx-background-color "rgb(110,110,110),linear-gradient(to right,derive(-fx-base,30%),derive(-fx-base,-30%))" }
+   ".scroll-bar:horizontal .thumb"
+   {:-fx-background-color "rgb(110,110,110),linear-gradient(to bottom,derive(-fx-base,30%),derive(-fx-base,-30%))" }
+   ".scroll-bar:vertical .thumb:hover"
+   {:-fx-background-color "rgb(140,140,140),linear-gradient(to right,derive(-fx-base,50%),derive(-fx-base,-10%))" }
+   ".scroll-bar:horizontal .thumb:hover"
+   {:-fx-background-color "rgb(140,140,140),linear-gradient(to bottom,derive(-fx-base,50%),derive(-fx-base,-10%))" }
+   ".doc-link, .hyperlink"
+   {:-fx-text-fill "rgb(70,70,255)"
+    :-fx-cursor "hand"
+    :-fx-underline true}
+   ".doc-link:hover, .hyperlink:hover"
+   {:-fx-text-fill "rgb(70,130,255)"}
+   ".table-row-cell:odd"
+   {:-fx-background-color "rgb(68, 68, 68)"}
+   ".table-row-cell:even"
+   {:-fx-background-color "rgb(56, 56, 56)"}
+   ".table-row-cell:odd:selected,.table-row-cell:even:selected"
+   {:-fx-background-color "rgb(100, 100, 100)"}
+   ".table-row-cell:odd:empty, .table-row-cell:even:empty"
+   {:-fx-background-color "transparent"}
+   ".check-box"
+   {:-fx-mark-color "white"}
+   ".combo-box .arrow-button .arrow,.combo-box .arrow-button, .scroll-bar .increment-arrow,.scroll-bar .decrement-arrow"
+   {:-fx-background-color "white"}
    ".skylobby"
    {"-normal"
     {"> .ikonli-font-icon"
@@ -82,14 +120,16 @@
       :-fx-base "#ffd700"}}}})
 (def black-style-data
   {".root"
-   {:-fx-base "rgb(20, 20, 20)"
-    :-fx-accent "rgb(50, 50, 50)"
+   {:-fx-base "rgb(30, 30, 30)"
+    :-fx-accent "rgb(65, 65, 65)"
     :-fx-background "rgb(0, 0, 0)"
-    :-fx-control-inner-background "rgb(30, 30, 30)"
-    :-fx-selection-bar-non-focused "rgb(40, 40, 40)"}
+    :-fx-control-inner-background "rgb(40, 40, 40)"
+    :-fx-selection-bar-non-focused "rgb(55, 55, 55)"
+    :-fx-focus-color "transparent"
+    :-fx-faint-focus-color "transparent"}
    ".tab"
-   {:-fx-base "rgb(35, 35, 35)"
-    :-fx-background "rgb(40, 40, 40)"
+   {:-fx-base "rgb(45, 45, 45)"
+    :-fx-background "rgb(60, 60, 60)"
     :-fx-accent "rgb(0, 0, 0)"}
    ".tab:selected"
    {:-fx-background "rgb(0, 0, 0)"
@@ -98,6 +138,33 @@
    {:-fx-background-color "rgb(0, 0, 0)"}
    ".text-field"
    {:-fx-prompt-text-fill "rgb(180, 180, 180)"}
+   ".scroll-bar .thumb"
+   {:-fx-background-radius "2, 1"
+    :-fx-background-insets "3, 4"}
+   ".scroll-bar:vertical .thumb"
+   {:-fx-background-color "rgb(90,90,90),linear-gradient(to right,derive(-fx-base,30%),derive(-fx-base,-30%))" }
+   ".scroll-bar:horizontal .thumb"
+   {:-fx-background-color "rgb(90,90,90),linear-gradient(to bottom,derive(-fx-base,30%),derive(-fx-base,-30%))" }
+   ".scroll-bar:vertical .thumb:hover"
+   {:-fx-background-color "rgb(110,110,110),linear-gradient(to right,derive(-fx-base,50%),derive(-fx-base,-10%))" }
+   ".scroll-bar:horizontal .thumb:hover"
+   {:-fx-background-color "rgb(110,110,110),linear-gradient(to bottom,derive(-fx-base,50%),derive(-fx-base,-10%))" }
+   ".doc-link, .hyperlink"
+   {:-fx-text-fill "rgb(70,70,255)"
+    :-fx-cursor "hand"
+    :-fx-underline true}
+   ".doc-link:hover, .hyperlink:hover"
+   {:-fx-text-fill "rgb(70,130,255)"}
+   ".table-row-cell:odd"
+   {:-fx-background-color "rgb(28, 28, 28)"}
+   ".table-row-cell:even"
+   {:-fx-background-color "rgb(18, 18, 18)"}
+   ".table-row-cell:odd:selected,.table-row-cell:even:selected"
+   {:-fx-background-color "rgb(70, 70, 70)"}
+   ".table-row-cell:odd:empty, .table-row-cell:even:empty"
+   {:-fx-background-color "transparent"}
+   ".combo-box .arrow-button .arrow,.scroll-bar .increment-arrow,.scroll-bar .decrement-arrow"
+   {:-fx-background-color "white"}
    ".skylobby"
    {"-normal"
     {"> .ikonli-font-icon"
@@ -111,8 +178,48 @@
       :-fx-base "#ffd700"}}}})
 (def javafx-style-data
   {
+".root"
+   {:-fx-base "rgb(180, 180, 180)"
+    :-fx-accent "rgb(200, 200, 200)"
+    :-fx-background "rgb(220, 220, 220)"
+    :-fx-control-inner-background "rgb(200, 200, 200)"
+    :-fx-selection-bar-non-focused "rgb(235, 235, 235)"
+    :-fx-focus-color "transparent"
+    :-fx-faint-focus-color "transparent"}
+   ".tab"
+   {:-fx-base "rgb(170, 170, 170)"
+    :-fx-background "rgb(180, 180, 180)"
+    :-fx-accent "rgb(0, 0, 0)"}
+   ".tab:selected"
+   {:-fx-background "rgb(220, 220, 220)"
+    :-fx-accent "rgb(100, 100, 100)"}
    ".styled-text-area"
    {:-fx-background-color "rgb(255, 255, 255)"}
+   ".scroll-bar .thumb"
+   {:-fx-background-radius "2, 1"
+    :-fx-background-insets "3, 4"}
+   ".scroll-bar:vertical .thumb"
+   {:-fx-background-color "rgb(150,150,150),linear-gradient(to right,derive(-fx-base,-10%),derive(-fx-base,-50%))" }
+   ".scroll-bar:horizontal .thumb"
+   {:-fx-background-color "rgb(150,150,150),linear-gradient(to bottom,derive(-fx-base,-10%),derive(-fx-base,-50%))" }
+   ".scroll-bar:vertical .thumb:hover"
+   {:-fx-background-color "rgb(190,190,190),linear-gradient(to right,derive(-fx-base,+10%),derive(-fx-base,-30%))" }
+   ".scroll-bar:horizontal .thumb:hover"
+   {:-fx-background-color "rgb(190,190,190),linear-gradient(to bottom,derive(-fx-base,+10%),derive(-fx-base,-30%))" }
+   ".doc-link, .hyperlink"
+   {:-fx-text-fill "rgb(70,70,255)"
+    :-fx-cursor "hand"
+    :-fx-underline true}
+   ".doc-link:hover, .hyperlink:hover"
+   {:-fx-text-fill "rgb(70,130,255)"}
+   ".table-row-cell:odd"
+   {:-fx-background-color "rgb(190, 190, 190)"}
+   ".table-row-cell:even"
+   {:-fx-background-color "rgb(165, 165, 165)"}
+   ".table-row-cell:odd:selected,.table-row-cell:even:selected"
+   {:-fx-background-color "rgb(240, 240, 240)"}
+   ".table-row-cell:odd:empty, .table-row-cell:even:empty"
+   {:-fx-background-color "transparent"}
    ".skylobby"
    {"-normal"
     {"> .ikonli-font-icon"
@@ -121,6 +228,10 @@
     {
      "-message"
      {:-fx-fill "black"}
+     "-username-ex"
+     {:-fx-fill "rgb(20,140,140)"}
+     "-message-ex"
+     {:-fx-fill "rgb(20,140,140)"}
      "-user-list"
      {:-fx-text-fill "black"}}
     "-console"
@@ -179,7 +290,7 @@
      "-time"
      {:-fx-fill "grey"}
      "-username"
-     {:-fx-fill "royalblue"}
+     {:-fx-fill "royalblue"};"rgb(136,190,190)"} ; kept royalblue but it's a bit too close to the new hyperlink color
      "-username-me"
      {:-fx-fill "orange"}
      "-username-ex"
@@ -194,9 +305,11 @@
      {:-fx-fill "cyan"}
      "-message-url"
      {; https://stackoverflow.com/a/4774037
-      :-fx-fill "#0000EE"
+      :-fx-fill "rgb(70,70,255)"
       :-fx-cursor "hand"
       :-fx-underline true}
+     "-message-url:hover"
+     {:-fx-fill "rgb(70,130,255)"}
      "-message-highlight"
      {:-fx-fill "red"}
      "-input"

@@ -1,5 +1,9 @@
 # Changelog
 
+## [0.9.31007](https://github.com/springraaar/skylobby/releases/tag/0.9.31007) - 2025-07-XX
+
+- Improved black, grey and white styles
+
 ## [0.9.31006](https://github.com/springraaar/skylobby/releases/tag/0.9.31006) - 2025-04-22
 
 - Fixed Recoil engine downloads to match the latest conventions (changed again in march 2025)
