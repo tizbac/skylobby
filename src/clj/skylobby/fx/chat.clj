@@ -41,6 +41,8 @@
       :y (skylobby.fx/fity screen-bounds (get-in window-states [window-key :y]))
       :width (skylobby.fx/fitwidth screen-bounds (get-in window-states [window-key :width]) chat-window-width)
       :height (skylobby.fx/fitheight screen-bounds (get-in window-states [window-key :height]) chat-window-height)
+      :min-width chat-window-width
+      :min-height chat-window-height
       :on-width-changed (partial skylobby.fx/window-changed window-key :width)
       :on-height-changed (partial skylobby.fx/window-changed window-key :height)
       :on-x-changed (partial skylobby.fx/window-changed window-key :x)

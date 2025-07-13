@@ -219,6 +219,8 @@
      :y (skylobby.fx/fity screen-bounds)
      :width (skylobby.fx/fitwidth screen-bounds maps-window-width)
      :height (skylobby.fx/fitheight screen-bounds maps-window-height)
+     :min-width maps-window-width
+     :min-height maps-window-height
      :scene
      {:fx/type :scene
       :stylesheets (fx/sub-ctx context skylobby.fx/stylesheet-urls-sub)

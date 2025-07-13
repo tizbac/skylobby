@@ -46,6 +46,8 @@
      :y (skylobby.fx/fity screen-bounds)
      :width (skylobby.fx/fitwidth screen-bounds host-battle-window-width)
      :height (skylobby.fx/fitheight screen-bounds host-battle-window-height)
+     :min-width host-battle-window-width
+     :min-height host-battle-window-height
      :scene
      {:fx/type :scene
       :stylesheets (fx/sub-ctx context skylobby.fx/stylesheet-urls-sub)

@@ -3,6 +3,7 @@
 ## [0.9.31007](https://github.com/springraaar/skylobby/releases/tag/0.9.31007) - 2025-07-XX
 
 - Improved black, grey and white styles
+- Fix minimum size for some popup windows (registration, map selection and a few others)
 
 ## [0.9.31006](https://github.com/springraaar/skylobby/releases/tag/0.9.31006) - 2025-04-22
 

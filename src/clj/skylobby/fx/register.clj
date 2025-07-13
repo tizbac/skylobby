@@ -37,6 +37,8 @@
      :y (skylobby.fx/fity screen-bounds)
      :width (skylobby.fx/fitwidth screen-bounds register-window-width)
      :height (skylobby.fx/fitheight screen-bounds register-window-height)
+     :min-width register-window-width
+     :min-height register-window-height
      :scene
      {:fx/type :scene
       :stylesheets (fx/sub-ctx context skylobby.fx/stylesheet-urls-sub)

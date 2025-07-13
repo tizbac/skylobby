@@ -35,6 +35,8 @@
      :y (skylobby.fx/fity screen-bounds (get-in window-states [window-key :y]))
      :width (skylobby.fx/fitwidth screen-bounds (get-in window-states [window-key :width]) battles-window-width)
      :height (skylobby.fx/fitheight screen-bounds (get-in window-states [window-key :height]) battles-window-height)
+     :min-width battles-window-width
+     :min-height battles-window-height
      :on-width-changed (partial skylobby.fx/window-changed window-key :width)
      :on-height-changed (partial skylobby.fx/window-changed window-key :height)
      :on-x-changed (partial skylobby.fx/window-changed window-key :x)

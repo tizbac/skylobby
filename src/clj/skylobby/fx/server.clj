@@ -112,6 +112,8 @@
      :y (skylobby.fx/fity screen-bounds)
      :width (skylobby.fx/fitwidth screen-bounds server-window-width)
      :height (skylobby.fx/fitheight screen-bounds server-window-height)
+     :min-width server-window-width
+     :min-height server-window-height
      :scene
      {:fx/type :scene
       :stylesheets (fx/sub-ctx context skylobby.fx/stylesheet-urls-sub)
