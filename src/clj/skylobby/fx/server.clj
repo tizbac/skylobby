@@ -108,8 +108,7 @@
      :icons skylobby.fx/icons
      :on-close-request {:event/type :spring-lobby/dissoc
                         :key :show-servers-window}
-     :x (skylobby.fx/fitx screen-bounds)
-     :y (skylobby.fx/fity screen-bounds)
+     :on-shown {:event/type :app/popup-window-shown-center}
      :width (skylobby.fx/fitwidth screen-bounds server-window-width)
      :height (skylobby.fx/fitheight screen-bounds server-window-height)
      :min-width server-window-width

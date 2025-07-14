@@ -4050,6 +4050,11 @@
           (catch Exception e
             (log/error e "Error getting public IP from api.ipify.org")))))))
 
+(defmethod event-handler :app/popup-window-shown-center
+  [{:keys [fx/event]}]
+  (let [stage (.getSource event)]
+    (.centerOnScreen stage)))
+
 
 (defn init-async [state-atom]
   (future

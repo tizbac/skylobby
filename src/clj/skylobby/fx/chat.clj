@@ -37,8 +37,9 @@
       :on-close-request {:event/type :spring-lobby/dissoc
                          :key :show-chat-window}
       :maximized (get-in window-states [window-key :maximized] false)
-      :x (skylobby.fx/fitx screen-bounds (get-in window-states [window-key :x]))
-      :y (skylobby.fx/fity screen-bounds (get-in window-states [window-key :y]))
+      ;:x (skylobby.fx/fitx screen-bounds (get-in window-states [window-key :x]))
+      ;:y (skylobby.fx/fity screen-bounds (get-in window-states [window-key :y]))
+      :on-shown {:event/type :app/popup-window-shown-center}
       :width (skylobby.fx/fitwidth screen-bounds (get-in window-states [window-key :width]) chat-window-width)
       :height (skylobby.fx/fitheight screen-bounds (get-in window-states [window-key :height]) chat-window-height)
       :min-width chat-window-width

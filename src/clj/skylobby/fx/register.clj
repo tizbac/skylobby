@@ -33,8 +33,7 @@
      :icons skylobby.fx/icons
      :on-close-request {:event/type :spring-lobby/dissoc
                         :key :show-register-window}
-     :x (skylobby.fx/fitx screen-bounds)
-     :y (skylobby.fx/fity screen-bounds)
+     :on-shown {:event/type :app/popup-window-shown-center}
      :width (skylobby.fx/fitwidth screen-bounds register-window-width)
      :height (skylobby.fx/fitheight screen-bounds register-window-height)
      :min-width register-window-width

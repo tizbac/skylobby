@@ -31,8 +31,9 @@
      :icons skylobby.fx/icons
      :on-close-request {:event/type :spring-lobby/dissoc
                         :key :show-battles-window}
-     :x (skylobby.fx/fitx screen-bounds (get-in window-states [window-key :x]))
-     :y (skylobby.fx/fity screen-bounds (get-in window-states [window-key :y]))
+     ;:x (skylobby.fx/fitx screen-bounds (get-in window-states [window-key :x]))
+     ;:y (skylobby.fx/fity screen-bounds (get-in window-states [window-key :y]))
+     :on-shown {:event/type :app/popup-window-shown-center}
      :width (skylobby.fx/fitwidth screen-bounds (get-in window-states [window-key :width]) battles-window-width)
      :height (skylobby.fx/fitheight screen-bounds (get-in window-states [window-key :height]) battles-window-height)
      :min-width battles-window-width

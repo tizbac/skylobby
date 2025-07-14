@@ -42,8 +42,7 @@
      :icons skylobby.fx/icons
      :on-close-request {:event/type :spring-lobby/dissoc
                         :key :show-host-battle-window}
-     :x (skylobby.fx/fitx screen-bounds)
-     :y (skylobby.fx/fity screen-bounds)
+     :on-shown {:event/type :app/popup-window-shown-center}
      :width (skylobby.fx/fitwidth screen-bounds host-battle-window-width)
      :height (skylobby.fx/fitheight screen-bounds host-battle-window-height)
      :min-width host-battle-window-width

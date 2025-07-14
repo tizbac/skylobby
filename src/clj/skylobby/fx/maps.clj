@@ -18,7 +18,7 @@
 (set! *warn-on-reflection* true)
 
 
-(def maps-window-width 648)
+(def maps-window-width 690)
 (def maps-window-height 800)
 
 
@@ -215,8 +215,7 @@
      :icons skylobby.fx/icons
      :on-close-request {:event/type :spring-lobby/dissoc
                         :key :show-maps}
-     :x (skylobby.fx/fitx screen-bounds)
-     :y (skylobby.fx/fity screen-bounds)
+     :on-shown {:event/type :app/popup-window-shown-center}
      :width (skylobby.fx/fitwidth screen-bounds maps-window-width)
      :height (skylobby.fx/fitheight screen-bounds maps-window-height)
      :min-width maps-window-width

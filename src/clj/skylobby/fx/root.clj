@@ -113,6 +113,7 @@
           :render-scale-y 2.0
           :showing true
           :title (str "skylobby " u/app-version)
+          ;:on-shown {:event/type :app/main-stage-shown}
           :icons skylobby.fx/icons
           :maximized maximized}
          (when-not maximized
