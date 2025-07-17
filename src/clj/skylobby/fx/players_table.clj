@@ -37,6 +37,7 @@
        (into {})))
 
 ; https://github.com/beyond-all-reason/Beyond-All-Reason/blob/13457a9/luaui/Widgets/gui_advplayerslist.lua#L1197-L1204
+; replaced this by style classes as the colors didn't fit the light theme 
 (defn uncertainty-color [uncertainty]
   (case (int (or (when (number? uncertainty) uncertainty)
                  3))
@@ -45,6 +46,13 @@
     2 "#8c8c8c"
     "#be8282"))
 
+(defn uncertainty-class [uncertainty]
+  (case (int (or (when (number? uncertainty) uncertainty) 
+                 3))
+    0 "skilluncertainty0"
+    1 "skilluncertainty1"
+    2 "skilluncertainty2"
+    "skilluncertainty3"))
 
 (def sort-playing (comp u/to-number not u/to-bool :mode :battle-status))
 (def sort-bot (comp u/to-number :bot :client-status :user))
@@ -475,7 +483,7 @@
             :text (str "Bonus: +" bonus "%")}]))
       (when-not (-> player :user :client-status :bot)
         [{:fx/type :label
-          :style {:-fx-text-fill (uncertainty-color (:skilluncertainty player))}
+          :style-class [(uncertainty-class (:skilluncertainty player))]
           :text
           (str "Skill: "
                (str (:skill player)
@@ -783,7 +791,7 @@
                                 :id :skylobby/player-table}
                   (tufte/p :skill
                     {:alignment :center-left
-                     :style {:-fx-text-fill (uncertainty-color skilluncertainty)}
+                     :style-class [(uncertainty-class skilluncertainty)]
                      :text
                      (str skill
                           " "
@@ -1312,8 +1320,8 @@
                               :alignment :center-left
                               :style {:-fx-min-width player-skill-width
                                       :-fx-pref-width player-skill-width
-                                      :-fx-max-width player-skill-width
-                                      :-fx-text-fill (uncertainty-color (:skilluncertainty player))}
+                                      :-fx-max-width player-skill-width}
+                              :style-class [(uncertainty-class (:skilluncertainty player))]
                               :text
                               (str (:skill player)
                                    " "

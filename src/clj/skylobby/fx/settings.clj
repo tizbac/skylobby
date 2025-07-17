@@ -926,8 +926,8 @@
               :text "Grey"}
              {:fx/type :button
               :on-action {:event/type :spring-lobby/update-css
-                          :css skylobby.fx/javafx-style-data}
-              :text "JavaFX"}]}
+                          :css skylobby.fx/light-style-data}
+              :text "Light"}]}
            {:fx/type :pane
             :pref-height 8}
            (let [custom-file (fs/file (fs/app-root) "custom-css.edn")]

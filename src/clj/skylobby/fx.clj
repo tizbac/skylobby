@@ -108,7 +108,7 @@
    {:-fx-background-color "transparent"}
    ".check-box"
    {:-fx-mark-color "white"}
-   ".combo-box .arrow-button .arrow,.combo-box .arrow-button, .scroll-bar .increment-arrow,.scroll-bar .decrement-arrow"
+   ".combo-box .arrow-button .arrow, .scroll-bar .increment-arrow,.scroll-bar .decrement-arrow"
    {:-fx-background-color "white"}
    ".skylobby"
    {"-normal"
@@ -176,7 +176,7 @@
     {"-focus"
      {:-fx-background "#ffd700"
       :-fx-base "#ffd700"}}}})
-(def javafx-style-data
+(def light-style-data
   {
 ".root"
    {:-fx-base "rgb(180, 180, 180)"
@@ -203,9 +203,9 @@
    ".scroll-bar:horizontal .thumb"
    {:-fx-background-color "rgb(150,150,150),linear-gradient(to bottom,derive(-fx-base,-10%),derive(-fx-base,-50%))" }
    ".scroll-bar:vertical .thumb:hover"
-   {:-fx-background-color "rgb(190,190,190),linear-gradient(to right,derive(-fx-base,+10%),derive(-fx-base,-30%))" }
+   {:-fx-background-color "rgb(255,255,255),linear-gradient(to right,derive(-fx-base,+30%),derive(-fx-base,-10%))" }
    ".scroll-bar:horizontal .thumb:hover"
-   {:-fx-background-color "rgb(190,190,190),linear-gradient(to bottom,derive(-fx-base,+10%),derive(-fx-base,-30%))" }
+   {:-fx-background-color "rgb(255,255,255),linear-gradient(to bottom,derive(-fx-base,+30%),derive(-fx-base,-10%))" }
    ".doc-link, .hyperlink"
    {:-fx-text-fill "rgb(70,70,255)"
     :-fx-cursor "hand"
@@ -215,11 +215,28 @@
    ".table-row-cell:odd"
    {:-fx-background-color "rgb(190, 190, 190)"}
    ".table-row-cell:even"
-   {:-fx-background-color "rgb(165, 165, 165)"}
+   {:-fx-background-color "rgb(175, 175, 175)"}
    ".table-row-cell:odd:selected,.table-row-cell:even:selected"
    {:-fx-background-color "rgb(240, 240, 240)"}
    ".table-row-cell:odd:empty, .table-row-cell:even:empty"
    {:-fx-background-color "transparent"}
+   ".skilluncertainty0"
+   {:-fx-text-fill "rgb(0, 0, 0)"}
+   ".skilluncertainty1"
+   {:-fx-text-fill "rgb(50, 40, 30)"}
+   ".skilluncertainty2"
+   {:-fx-text-fill "rgb(80, 60, 40)"}
+   ".skilluncertainty3"
+   {:-fx-text-fill "rgb(120, 80, 40)"}
+   ".combo-box-popup .list-cell:selected"
+   {:-fx-background-color "rgb(240, 240, 240)"
+    :-fx-text-fill "rgb(10, 10, 10)"}
+   ".combo-box-popup .list-cell:hover"
+   {:-fx-background-color "rgb(210,210,210)"
+    :-fx-text-fill "rgb(20, 20, 20)"}
+   ".menu-item:hover"
+   {:-fx-background-color "rgb(230,230,230)"
+    :-fx-text-fill "rgb(10, 10, 10)"}
    ".skylobby"
    {"-normal"
     {"> .ikonli-font-icon"
@@ -249,7 +266,7 @@
   {
    "black" black-style-data
    "grey" grey-style-data
-   "javafx" javafx-style-data})
+   "light" light-style-data})
 
 
 (def default-style
@@ -258,6 +275,14 @@
 ; so that themes can override
 (def default-classes
   {
+   ".skilluncertainty0"
+   {:-fx-text-fill "rgb(255, 255, 255)"}
+   ".skilluncertainty1"
+   {:-fx-text-fill "rgb(255, 230, 220)"}
+   ".skilluncertainty2"
+   {:-fx-text-fill "rgb(255, 220, 200)"}
+   ".skilluncertainty3"
+   {:-fx-text-fill "rgb(255, 190, 140)"}
    ".styled-text-area"
    {:-fx-background-color "rgb(50, 50, 50)"}
    ".hyperlink"
