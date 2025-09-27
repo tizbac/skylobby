@@ -1,5 +1,5 @@
 #!/bin/sh
-exec /usr/lib/jvm/java-17-openjdk/bin/java \
+exec /usr/lib/jvm/java-21-openjdk/bin/java \
   -Dglass.gtk.uiScale=1.1 \
   -XX:+UseZGC \
   -Xmx2g \
