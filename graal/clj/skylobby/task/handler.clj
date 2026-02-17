@@ -649,7 +649,13 @@
                                  ["PRD_RAPID_USE_STREAMER=false"
                                  "PRD_RAPID_REPO_MASTER=https://repos-cdn.beyondallreason.dev/repos.gz"
                                  "PRD_HTTP_SEARCH_URL=https://files-cdn.beyondallreason.dev/find"]))
-                               nil)
+                               (if (or (string/includes? rapid-id "Tech Annihilation") (string/includes? rapid-id "techa"))
+                                   (into-array String
+                                               ["PRD_RAPID_REPO_MASTER=https://rapid.techa-rts.com/repos.gz"
+                                                ])
+                                    nil
+                                 )
+                  )
               ^java.lang.Process process (.exec runtime cmdarray envp root)]
           (future
             (with-open [^java.io.BufferedReader reader (io/reader (.getInputStream process))]
