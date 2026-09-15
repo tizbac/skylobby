@@ -20,7 +20,6 @@
   (let [chat (listen [:skylobby/chat server-key channel-name])
         messages (->> chat
                       :messages
-                      reverse
                       (map-indexed vector))]
     [:div
      {;:class "flex-column"

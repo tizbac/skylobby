@@ -285,6 +285,24 @@
    {:-fx-text-fill "rgb(255, 190, 140)"}
    ".styled-text-area"
    {:-fx-background-color "rgb(50, 50, 50)"}
+   ".skylobby-chat-history"
+   {:-fx-background-color "#313338"}
+   ".skylobby-chat-history .viewport"
+   {:-fx-background-color "#313338"}
+   ".skylobby-chat-message-row:hover"
+   {:-fx-background-color "#383b40"}
+   ".skylobby-chat-name"
+   {:-fx-text-fill "#f0a02b"}
+   ".skylobby-chat-name-ex"
+   {:-fx-text-fill "#00c8c8"}
+   ".skylobby-chat-name-me"
+   {:-fx-text-fill "#f08422"}
+   ".skylobby-chat-timestamp"
+   {:-fx-text-fill "#949ba4"}
+   ".skylobby-chat-input"
+   {:-fx-background-color "#383a40"}
+   ".skylobby-chat-input .text-field"
+   {:-fx-control-inner-background "transparent"}
    ".hyperlink"
    {:-fx-text-fill "rgb(128, 128, 128)"}
    ".skylobby"
@@ -370,7 +388,41 @@
      "-message-irc-15"
      {:-fx-fill "rgb(210,210,210)"}
      "-input"
-     {:-fx-font-size 15}}
+     {:-fx-font-size 15}
+     "-message-row"
+     {:-fx-background-color "transparent"
+      :-fx-background-radius 8}
+     "-message-row:hover"
+     {:-fx-background-color "#2e3035"
+      :-fx-background-radius 8}
+     "-name"
+     {:-fx-text-fill "#f0a02b"
+      :-fx-font-weight 500
+      :-fx-font-size 15}
+     "-name-ex"
+     {:-fx-text-fill "#00c8c8"
+      :-fx-font-weight 500
+      :-fx-font-size 15}
+     "-name-me"
+     {:-fx-text-fill "orange"
+      :-fx-font-weight 500
+      :-fx-font-size 15}
+     "-timestamp"
+     {:-fx-text-fill "#949ba4"
+      :-fx-font-size 12}
+     "-system"
+     {:-fx-text-fill "#949ba4"
+      :-fx-font-size 14
+      :-fx-font-style :italic}
+     "-url"
+     {:-fx-fill "#00a8fc"
+      :-fx-underline true}
+     "-mention"
+     {:-fx-text-fill "#f08422"
+      :-fx-font-weight 500}
+     "-green"
+     {:-fx-text-fill "#35d27a"
+      :-fx-font-weight 500}}
     "-console"
     {
      "-time"

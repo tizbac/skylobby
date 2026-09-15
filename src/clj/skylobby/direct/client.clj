@@ -120,7 +120,7 @@
   (log/info "Adding chat" ?data)
   (let [{:keys [channel-name]} ?data
         messages-path [:by-server server-key :channels channel-name :messages]]
-    (swap! state-atom update-in messages-path conj ?data)))
+    (swap! state-atom update-in messages-path (fnil conj []) ?data)))
 
 (defmethod -event-msg-handler :skylobby.direct/battle-users
   [state-atom server-key {:keys [?data]}]

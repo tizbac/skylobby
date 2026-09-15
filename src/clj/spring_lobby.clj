@@ -1084,21 +1084,41 @@
 
 (defn- update-matchmaking-chimer-fn [state-atom]
   (log/info "Starting update matchmaking chimer")
-  (let [chimer
+  (let [ticks (atom 0)
+        chimer
         (chime/chime-at
           (chime/periodic-seq
-            (java-time/plus (java-time/instant) (java-time/duration 120 :seconds))
-            (java-time/duration 60 :seconds))
+            (java-time/instant)
+            (java-time/duration 1 :seconds))
           (fn [_chimestamp]
             (log/debug "Updating matchmaking")
-            (let [state @state-atom]
+            (let [n (swap! ticks inc)
+                  state @state-atom]
               (doseq [[server-key server-data] (u/valid-servers (:by-server state))]
-                (if (u/matchmaking? server-data)
-                  (let [client-data (:client-data server-data)]
-                    (message/send state-atom client-data "c.matchmaking.list_all_queues")
-                    (doseq [[queue-id _queue-data] (:matchmaking-queues server-data)]
-                      (message/send state-atom client-data (str "c.matchmaking.get_queue_info\t" queue-id))))
-                  (log/info "Matchmaking not enabled for server" server-key)))))
+                (when (u/matchmaking? server-data)
+                  (let [client-data (:client-data server-data)
+                        queues (-> state :by-server (get server-key) :matchmaking-queues)
+                        now (u/curr-millis)]
+                    (swap! state-atom update-in [:by-server server-key :matchmaking-queues]
+                      (fn [matchmaking-queues]
+                        (into {}
+                          (map
+                            (fn [[queue-id queue-data]]
+                              (let [deadline (:ready-deadline queue-data)]
+                                [queue-id
+                                 (if deadline
+                                   (let [countdown (max 0 (int (Math/ceil (/ (- deadline now) 1000.0))))]
+                                     (if (<= deadline now)
+                                       (assoc queue-data :countdown countdown :ready-check false :status :searching)
+                                       (assoc queue-data :countdown countdown)))
+                                   queue-data)]))
+                            matchmaking-queues))))
+                    (when (= 0 (mod n 60))
+                      (message/send state-atom client-data "MMLISTALL")
+                      (doseq [queue-id (keys queues)]
+                        (message/send state-atom client-data (str "MMINFO " queue-id))))
+                    (when (= 0 (mod n 30))
+                      (message/send state-atom client-data "MMLISTMY")))))))
           {:error-handler
            (fn [e]
              (log/error e "Error updating matchmaking")
@@ -1201,9 +1221,10 @@
                                                           (assoc m k
                                                             (update v :messages
                                                               (fn [messages]
-                                                                (map
-                                                                  #(assoc % :logged true)
-                                                                  messages)))))
+                                                                (into []
+                                                                  (map
+                                                                    #(assoc % :logged true)
+                                                                    messages))))))
                                                         {}
                                                         channels)))))
                                               {}
@@ -2908,7 +2929,7 @@
                               (u/visible-channel state server-key))]
          (-> state
              (assoc-in [:ignore-users server-key username] ignore)
-             (update-in [:by-server server-key :channels channel-name :messages] conj {:text (str (if ignore "Ignored " "Unignored ") username)
+             (update-in [:by-server server-key :channels channel-name :messages] (fnil conj []) {:text (str (if ignore "Ignored " "Unignored ") username)
                                                                                        :timestamp (u/curr-millis)
                                                                                        :message-type :info})))))))
 
@@ -3551,7 +3572,7 @@
                     :no-clear-draft true})))
             (re-find #"^/rename" message)
             (let [[_all new-username] (re-find #"^/rename\s+([^\s]+)" message)]
-             (swap! *state update-in [:by-server server-key :channels channel-name :messages] conj {:text (str "Renaming to" new-username)
+             (swap! *state update-in [:by-server server-key :channels channel-name :messages] (fnil conj []) {:text (str "Renaming to" new-username)
                                                                                                     :timestamp (u/curr-millis)
                                                                                                     :message-type :info}
               (message/send *state client-data (str "RENAMEACCOUNT " new-username))))
@@ -3582,7 +3603,7 @@
             (let [channel-name (u/visible-channel state server-key)]
               (-> state
                   (assoc-in [:discord-promoted discord-channel] now)
-                  (update-in [:by-server server-key :channels channel-name :messages] conj {:text "Promoted to Discord"
+                  (update-in [:by-server server-key :channels channel-name :messages] (fnil conj []) {:text "Promoted to Discord"
                                                                                             :timestamp now
                                                                                             :message-type :info})))))
         (future
@@ -3743,36 +3764,49 @@
 
 
 (defmethod event-handler ::matchmaking-list-all [{:keys [client-data]}]
-  (message/send *state client-data "c.matchmaking.list_all_queues"))
+  (message/send *state client-data "MMLISTALL"))
 
 (defmethod event-handler ::matchmaking-list-my [{:keys [client-data]}]
-  (message/send *state client-data "c.matchmaking.list_my_queues"))
+  (message/send *state client-data "MMLISTMY"))
 
 (defmethod event-handler ::matchmaking-leave-all [{:keys [client-data]}]
-  (message/send *state client-data "c.matchmaking.leave_all_queues")
+  (message/send *state client-data "MMLEAVEALL")
   (swap! *state update-in [:by-server (u/server-key client-data) :matchmaking-queues]
     (fn [matchmaking-queues]
       (into {}
         (map
           (fn [[k v]]
-            [k (assoc v :am-in false)])
+            [k (assoc v :am-in false :ready-check false :status :searching)])
           matchmaking-queues)))))
 
-(defmethod event-handler ::matchmaking-join [{:keys [client-data queue-id]}]
-  (message/send *state client-data (str "c.matchmaking.join_queue " queue-id)))
+(defmethod event-handler ::matchmaking-select-queue [{:keys [client-data queue-id]}]
+  (swap! *state update-in [:by-server (u/server-key client-data)]
+    (fn [server-data]
+      (let [selected (get-in server-data [:matchmaking-queues queue-id])]
+        (assoc server-data
+               :matchmaking-join-queue-id queue-id
+               :matchmaking-join-min 2
+               :matchmaking-join-max (if selected
+                                       (* 2 (:team-size selected))
+                                       2))))))
+
+(defmethod event-handler ::matchmaking-join [{:keys [client-data queue-id min-players max-players]}]
+  (let [min-players (or min-players 2)
+        max-players (if (number? max-players)
+                      max-players
+                      (or max-players min-players))]
+    (message/send *state client-data
+      (str "MMJOIN " queue-id " " min-players " " max-players))))
 
 (defmethod event-handler ::matchmaking-leave [{:keys [client-data queue-id]}]
-  (message/send *state client-data (str "c.matchmaking.leave_queue " queue-id))
-  (message/send *state client-data (str "c.matchmaking.get_queue_info\t" queue-id))
+  (message/send *state client-data (str "MMLEAVE " queue-id))
   (swap! *state assoc-in [:by-server (u/server-key client-data) :matchmaking-queues queue-id :am-in] false))
 
 (defmethod event-handler ::matchmaking-ready [{:keys [client-data queue-id]}]
-  (message/send *state client-data (str "c.matchmaking.ready"))
-  (swap! *state assoc-in [:by-server (u/server-key client-data) :matchmaking-queues queue-id :ready-check] false))
+  (message/send *state client-data (str "MMREADY " queue-id)))
 
 (defmethod event-handler ::matchmaking-decline [{:keys [client-data queue-id]}]
-  (message/send *state client-data (str "c.matchmaking.decline"))
-  (swap! *state assoc-in [:by-server (u/server-key client-data) :matchmaking-queues queue-id :ready-check] false))
+  (message/send *state client-data (str "MMDECLINE " queue-id)))
 
 
 (def state-watch-chimers

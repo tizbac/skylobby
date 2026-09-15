@@ -80,7 +80,7 @@
         (async/<!! (async/timeout login-command-cooldown))
         (when (u/matchmaking? server-data)
           (async/<!! (async/timeout login-command-cooldown))
-          (message/send state-atom client-data "c.matchmaking.list_all_queues"))
+          (message/send state-atom client-data "MMLISTALL"))
         (doseq [channel my-channels]
           (let [[channel-name _] channel]
             (if (and channel-name
@@ -117,10 +117,10 @@
                   true
                   (assoc-in [:users username] user)
                   (contains? (:my-channels server-data) channel-name)
-                  (update-in [:channels channel-name :messages] conj {:text ""
-                                                                      :timestamp (u/curr-millis)
-                                                                      :message-type :join
-                                                                      :username username})))))
+                  (update-in [:channels channel-name :messages] (fnil conj []) {:text ""
+                                                                                :timestamp (u/curr-millis)
+                                                                                :message-type :join
+                                                                                :username username})))))
     (log/warn "Unable to parse ADDUSER" (pr-str m))))
 
 (defmethod handle "REMOVEUSER" [state-atom server-key m]
@@ -132,10 +132,10 @@
                 true
                 (update :users dissoc username)
                 (contains? (:my-channels server-data) channel-name)
-                (update-in [:channels channel-name :messages] conj {:text ""
-                                                                    :timestamp (u/curr-millis)
-                                                                    :message-type :leave
-                                                                    :username username}))))))
+                (update-in [:channels channel-name :messages] (fnil conj []) {:text ""
+                                                                              :timestamp (u/curr-millis)
+                                                                              :message-type :leave
+                                                                              :username username}))))))
 
 
 (defn start-game-if-synced
@@ -445,7 +445,7 @@
                                   (update-in [:battle :users] dissoc username)
                                   (and is-my-battle (not unified))
                                   (update-in [:channels (u/battle-id-channel-name battle-id) :messages]
-                                    conj {:text ""
+                                    (fnil conj []) {:text ""
                                           :timestamp (u/curr-millis)
                                           :message-type :leave
                                           :username username})
@@ -507,10 +507,10 @@
                     (fn [channel]
                       (-> channel
                           (assoc-in [:users username] {})
-                          (update :messages conj {:text ""
-                                                  :timestamp (u/curr-millis)
-                                                  :message-type :join
-                                                  :username username}))))
+                          (update :messages (fnil conj []) {:text ""
+                                                              :timestamp (u/curr-millis)
+                                                              :message-type :join
+                                                              :username username}))))
                   needs-selected-tab-channel-fix
                   (assoc-in [:selected-tab-channel server-key] fix-to)))))))
 
@@ -624,7 +624,7 @@
                (focus-impl message-data))))
          (cond-> (update-in state [:by-server server-key]
                    (fn [state]
-                     (cond-> (update-in state [:channels channel-name :messages] conj message-data)
+                     (cond-> (update-in state [:channels channel-name :messages] (fnil conj []) message-data)
                              (not capture)
                              (assoc-in [:my-channels channel-name] {})
                              capture
@@ -636,7 +636,7 @@
                  (and (not battle-channel?) (or focus-chat needs-selected-tab-channel-fix))
                  (assoc-in [:selected-tab-channel server-key] channel-name)
                  parsed-coordinator
-                 (update-in [:by-server server-key :channels battle-channel-name :messages] conj parsed-coordinator)
+                 (update-in [:by-server server-key :channels battle-channel-name :messages] (fnil conj []) parsed-coordinator)
                  json-from-host-for-battle-id
                  (assoc-in [:by-server server-key :battles json-from-host-for-battle-id :user-details]
                    (try
@@ -694,7 +694,7 @@
 (defmethod handle "SAIDFROM" [state-atom server-url m]
   (let [[_all channel-name username message] (re-find #"\w+ ([^\s]+) ([^\s]+) (.*)" m)
         message-data (u/chat-message-data username message)]
-    (swap! state-atom update-in [:by-server server-url :channels channel-name :messages] conj message-data)))
+    (swap! state-atom update-in [:by-server server-url :channels channel-name :messages] (fnil conj []) message-data)))
 
 
 ; legacy battle chat
@@ -744,7 +744,7 @@
                   (update-in state [:by-server server-key]
                     (fn [server]
                       (-> server
-                          (update-in [:channels channel-name :messages] conj message-data))))
+                          (update-in [:channels channel-name :messages] (fnil conj []) message-data))))
                   needs-focus
                   (assoc-in [:needs-focus server-key main-tab channel-tab] true)))
         state))))
@@ -781,7 +781,7 @@
       (fn [server-data]
         (let [message-data (u/chat-message-data (:username server-data) message)]
           (-> server-data
-              (update-in [:channels (u/user-channel-name username) :messages] conj message-data)))))))
+              (update-in [:channels (u/user-channel-name username) :messages] (fnil conj []) message-data)))))))
 
 (defmethod handle "SAIDPRIVATE" [state-atom server-key m]
   (let [[_all username message] (re-find #"\w+ ([^\s]+) (.*)" m)
@@ -794,7 +794,7 @@
       (fn [server-data]
         (let [message-data (u/chat-message-data (:username server-data) message true)]
           (-> server-data
-              (update-in [:channels (u/user-channel-name username) :messages] conj message-data)))))))
+              (update-in [:channels (u/user-channel-name username) :messages] (fnil conj []) message-data)))))))
 
 (defmethod handle "SAIDPRIVATEEX" [state-atom server-key m]
   (let [[_all username message] (re-find #"\w+ ([^\s]+) (.*)" m)
@@ -816,7 +816,7 @@
                   (assoc-in [:battle :script-password] script-password)
                   (and (not unified) my-battle)
                   (update-in [:channels (u/battle-id-channel-name battle-id) :messages]
-                    conj {:text ""
+                    (fnil conj []) {:text ""
                           :timestamp (u/curr-millis)
                           :message-type :join
                           :username username})))))))
@@ -846,7 +846,7 @@
                                              (or
                                                (not (u/battle-channel-name? channel-name))
                                                is-channel-for-my-battle))
-                                        (update-in [:channels channel-name :messages] conj
+                                        (update-in [:channels channel-name :messages] (fnil conj [])
                                           {:text ""
                                            :timestamp (u/curr-millis)
                                            :message-type :leave
@@ -1075,11 +1075,25 @@
         (if (string/blank? action)
           (log/error "Unable to parse OK response command" command)
           (case action
-            "c.matchmaking.join_queue"
+            "MMJOIN"
+            (let [queue-id (string/trim args)]
+              (swap! state-atom assoc-in [:by-server server-key :matchmaking-queues queue-id :am-in] true)
+              (swap! state-atom assoc-in [:by-server server-key :matchmaking-queues queue-id :status] :searching)
+              (let [client-data (-> @state-atom :by-server (get server-key) :client-data)]
+                (message/send state-atom client-data (str "MMINFO " queue-id))))
+            "MMLEAVE"
+            (let [queue-id (string/trim args)]
+              (swap! state-atom assoc-in [:by-server server-key :matchmaking-queues queue-id :am-in] false))
+            "MMREADY"
             (let [queue-id (string/trim args)
-                  state (swap! state-atom assoc-in [:by-server server-key :matchmaking-queues queue-id :am-in] true)
-                  client-data (-> state :by-server (get server-key) :client-data)]
-              (message/send state-atom client-data (str "c.matchmaking.get_queue_info\t" queue-id)))
+                  username (get-in @state-atom [:by-server server-key :client-data :username])]
+              (swap! state-atom assoc-in [:by-server server-key :matchmaking-queues queue-id :me-ready] true)
+              (swap! state-atom update-in [:by-server server-key :matchmaking-queues queue-id :ready-players]
+                (fn [ready-players] (conj (or ready-players #{}) username))))
+            "MMDECLINE"
+            (let [queue-id (string/trim args)]
+              (swap! state-atom assoc-in [:by-server server-key :matchmaking-queues queue-id :ready-check] false)
+              (swap! state-atom assoc-in [:by-server server-key :matchmaking-queues queue-id :status] :searching))
             nil))))))
 
 (defmethod handle "ENABLEALLUNITS" [_state-atom _server-key _m]
@@ -1093,6 +1107,6 @@
       (swap! state-atom
         (fn [state]
           (let [channel-name (u/visible-channel state server-key)]
-            (update-in state [:by-server server-key :channels channel-name :messages] conj {:text (str message)
+            (update-in state [:by-server server-key :channels channel-name :messages] (fnil conj []) {:text (str message)
                                                                                             :timestamp (u/curr-millis)
                                                                                             :message-type :info})))))))

@@ -486,13 +486,8 @@
             :closable false
             :id "matchmaking"
             :content
-            {:fx/type :split-pane
-             :divider-positions [0.99]
-             :items
-             [
-              {:fx/type fx.matchmaking/matchmaking-view
-               :server-key server-key}
-              users-view]}}])
+            {:fx/type fx.matchmaking/matchmaking-view
+             :server-key server-key}}])
        (when show-closed-battles
          (->> old-battles
               (remove (comp #{battle-id} first))

@@ -20,7 +20,7 @@
          (-> state
              (assoc-in [:ignore-users server-key username] ignore)
              (update-in [:by-server server-key :channels channel-name :messages]
-                        conj
+                        (fnil conj [])
                         {:text (str (if ignore "Ignored " "Unignored ") username)
                          :timestamp (u/curr-millis)
                          :message-type :info})))))))
@@ -80,7 +80,7 @@
               (re-find #"^/rename" message)
               (let [[_all new-username] (re-find #"^/rename\s+([^\s]+)" message)]
                 (when (= :spring-lobby server-type)
-                  (swap! state-atom update-in messages-path conj {:text (str "Renaming to " new-username)
+                  (swap! state-atom update-in messages-path (fnil conj []) {:text (str "Renaming to " new-username)
                                                                   :timestamp now
                                                                   :message-type :info}
                    (message/send state-atom client-data (str "RENAMEACCOUNT " new-username)))))
@@ -101,7 +101,7 @@
                   :direct-host
                   (if is-battle-channel
                     (do
-                      (swap! state-atom update-in messages-path conj chat-data)
+                      (swap! state-atom update-in messages-path (fnil conj []) chat-data)
                       ((:broadcast-fn server) [:skylobby.direct/chat chat-data]))
                     (log/warn "TODO direct host send non-battle message:" message))
                   :direct-client

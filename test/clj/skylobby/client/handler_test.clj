@@ -715,3 +715,29 @@
              @state-atom))
       (is (= ["MYBATTLESTATUS 1024 0"]
              @messages-atom)))))
+
+(deftest channel-messages-append-in-order
+  (let [state-atom (atom {})]
+    (handler/handle state-atom "server1" "JOINED #main alice")
+    (handler/handle state-atom "server1" "SAID #main bob hello-one")
+    (handler/handle state-atom "server1" "SAID #main alice hello-two")
+    (let [messages (get-in @state-atom [:by-server "server1" :channels "#main" :messages])]
+      (is (vector? messages)
+        "messages must be a vector, not a list (conj on a list prepends)")
+      (is (= [:join nil nil]
+             (mapv :message-type messages)))
+      (is (= ["" "hello-one" "hello-two"]
+             (mapv :text messages))))))
+
+(deftest battle-messages-append-in-order
+  (let [state-atom (atom {:by-server {"server1" {:battle {:battle-id 1}}}})]
+    (handler/handle state-atom "server1" "JOINED __battle__1 bob")
+    (handler/handle state-atom "server1" "SAIDBATTLE alice hi-battle")
+    (handler/handle state-atom "server1" "SAIDBATTLE bob hey-battle")
+    (let [messages (get-in @state-atom [:by-server "server1" :channels "__battle__1" :messages])]
+      (is (vector? messages)
+        "messages must be a vector, not a list (conj on a list prepends)")
+      (is (= [:join nil nil]
+             (mapv :message-type messages)))
+      (is (= ["" "hi-battle" "hey-battle"]
+             (mapv :text messages))))))

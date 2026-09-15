@@ -137,7 +137,7 @@
                               (u/visible-channel state server-key))]
          (-> state
              (assoc-in [:ignore-users server-key username] ignore)
-             (update-in [:by-server server-key :channels channel-name :messages] conj {:text (str (if ignore "Ignored " "Unignored ") username)
+             (update-in [:by-server server-key :channels channel-name :messages] (fnil conj []) {:text (str (if ignore "Ignored " "Unignored ") username)
                                                                                        :timestamp (u/curr-millis)
                                                                                        :message-type :info})))))))
 (defn send-command [state-atom {:keys [client-data message]}]
@@ -173,7 +173,7 @@
              :message message})))
       (re-find #"^/rename" message)
       (let [[_all new-username] (re-find #"^/rename\s+([^\s]+)" message)]
-       (swap! state-atom update-in [:by-server server-key :channels channel-name :messages] conj {:text (str "Renaming to" new-username)
+       (swap! state-atom update-in [:by-server server-key :channels channel-name :messages] (fnil conj []) {:text (str "Renaming to" new-username)
                                                                                                   :timestamp (u/curr-millis)
                                                                                                   :message-type :info}
         (message/send state-atom client-data (str "RENAMEACCOUNT " new-username))))

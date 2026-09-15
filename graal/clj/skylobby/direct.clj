@@ -191,7 +191,7 @@
   :skylobby.direct.client/chat
   [state-atom server-key {:keys [?data]}]
   (let [{:keys [channel-name]} ?data
-        {:keys [by-server direct-connect-chat-commands]} (swap! state-atom update-in [:by-server server-key :channels channel-name :messages] conj ?data)
+        {:keys [by-server direct-connect-chat-commands]} (swap! state-atom update-in [:by-server server-key :channels channel-name :messages] (fnil conj []) ?data)
         {:keys [server]} (get by-server server-key)
         {:keys [broadcast-fn]} server]
     (broadcast-fn [::chat ?data])

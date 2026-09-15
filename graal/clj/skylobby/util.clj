@@ -352,9 +352,7 @@
 (defn sanitize-filter [s]
   (-> s (string/replace #"[^\p{Alnum}]" "") string/lower-case))
 
-(defn matchmaking? [_server-data]
-  false
-  #_
+(defn matchmaking? [server-data]
   (->> server-data
        :compflags
        (filter #{"matchmaking"})

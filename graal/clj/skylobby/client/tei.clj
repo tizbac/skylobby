@@ -12,60 +12,118 @@
 
 ; matchmaking
 
-(defn parse-queue-id-name [queue-id-name]
-  (when-let [[_all id queue-name] (re-find #"([^:]*):([^:]*)" queue-id-name)]
-    [id {:queue-name queue-name}]))
+(defn parse-queue-triple [queue-triple]
+  (when-let [[_all id queue-name team-size] (re-find #"([^:]+):([^:]+):([^:]+)" queue-triple)]
+    [id {:queue-name queue-name
+         :team-size (u/to-number team-size)
+         :current-search-time 0
+         :current-size 0
+         :am-in false}]))
 
-(defmethod handler/handle "s.matchmaking.full_queue_list" [state-atom server-key m]
+(defn queue-entries-from [queues-str]
+  (->> (string/split (or queues-str "") #"\t")
+       (map parse-queue-triple)
+       (filter some?)
+       (into {})))
+
+(defmethod handler/handle "MMQUEUES" [state-atom server-key m]
   (let [[_all queues-str] (re-find #"[^\s]+ (.*)" m)
-        queue-id-names (->> (string/split queues-str #"\t")
-                            (map parse-queue-id-name)
-                            (into {}))
-        queue-ids (set (keys queue-id-names))]
+        queue-entries (queue-entries-from queues-str)
+        queue-ids (set (keys queue-entries))]
     (swap! state-atom update-in [:by-server server-key :matchmaking-queues]
-           (fn [matchmaking-queues]
-             (u/deep-merge
-               (into {}
-                 (filter (comp queue-ids first) matchmaking-queues))
-               queue-id-names)))))
+      (fn [matchmaking-queues]
+        (u/deep-merge
+          (->> matchmaking-queues
+               (filter (comp queue-ids first))
+               (into {})
+               (map (fn [[k v]] [k (assoc v :current-search-time 0 :current-size 0)]))
+               (into {}))
+          queue-entries)))))
 
-(defmethod handler/handle "s.matchmaking.your_queue_list" [state-atom server-key m]
+(defmethod handler/handle "MMMYQUEUES" [state-atom server-key m]
   (let [[_all queues-str] (re-find #"[^\s]+ (.*)" m)
-        queue-id-names (->> (string/split queues-str #"\t")
-                            (remove string/blank?)
-                            (map parse-queue-id-name)
-                            (filter some?)
-                            (map (fn [[k v]] [k (assoc v :am-in true)]))
-                            (into {}))]
+        queue-entries (queue-entries-from queues-str)
+        queue-ids (set (keys queue-entries))]
     (swap! state-atom update-in [:by-server server-key :matchmaking-queues]
-           (fn [matchmaking-queues]
-             (u/deep-merge
-               (into {}
-                 (map
-                   (fn [[k v]] [k (assoc v :am-in false)])
-                   matchmaking-queues))
-               queue-id-names)))))
+      (fn [matchmaking-queues]
+        (u/deep-merge
+          (->> matchmaking-queues
+               (map (fn [[k v]] [k (assoc v :am-in false)]))
+               (into {}))
+          (->> (filter (comp queue-ids first) queue-entries)
+               (map (fn [[k v]] [k (assoc v :am-in true)]))
+               (into {})))))))
 
-(defmethod handler/handle "s.matchmaking.queue_info" [state-atom server-key m]
+(defmethod handler/handle "MMINFO" [state-atom server-key m]
   (let [[_all queue-info] (re-find #"[^\s]+ (.*)" m)
-        [queue-id queue-name search-time size] (string/split queue-info #"\t")]
+        [queue-id queue-name team-size search-time size] (string/split queue-info #"\t")]
     (swap! state-atom update-in [:by-server server-key :matchmaking-queues queue-id]
-           assoc
-           :queue-name queue-name
-           :current-search-time (u/to-number search-time)
-           :current-size (u/to-number size))))
+      (fn [queue-data]
+        (-> (or queue-data {})
+            (assoc
+              :queue-name queue-name
+              :team-size (u/to-number team-size)
+              :current-search-time (u/to-number search-time)
+              :current-size (u/to-number size)))))))
 
-(defmethod handler/handle "s.matchmaking.ready_check" [state-atom server-key m]
-  (let [[_all queue-id-name] (re-find #"[^\s]+ (.*)" m)
-        [queue-id queue-name] (string/split queue-id-name #":")]
+(defmethod handler/handle "MMREADYCHECK" [state-atom server-key m]
+  (let [[_all payload] (re-find #"[^\s]+ (.*)" m)
+        [queue-id queue-name secs & players] (string/split payload #"\t")]
     (swap! state-atom update-in [:by-server server-key :matchmaking-queues queue-id]
-           assoc :ready-check true :queue-name queue-name)))
+      (fn [queue-data]
+        (let [queue-data (or queue-data {})
+              team-size (:team-size queue-data (max 1 (quot (count players) 2)))]
+          (assoc queue-data
+                 :queue-name queue-name
+                 :team-size team-size
+                 :status :ready-check
+                 :ready-check true
+                 :players (vec players)
+                 :am-in true
+                 :ready-deadline (+ (u/curr-millis) (* 1000 (u/to-number secs)))))))))
 
-(defmethod handler/handle "s.matchmaking.match_cancelled" [state-atom server-key m]
-  (let [[_all queue-id-name] (re-find #"[^\s]+ (.*)" m)
-        [queue-id queue-name] (string/split queue-id-name #":")]
+(defmethod handler/handle "MMCANCELLED" [state-atom server-key m]
+  (let [[_all payload] (re-find #"[^\s]+ (.*)" m)
+        [queue-id queue-name reason] (string/split payload #"\t")]
     (swap! state-atom update-in [:by-server server-key :matchmaking-queues queue-id]
-           assoc :ready-check false :queue-name queue-name)))
+      (fn [queue-data]
+        (-> (or queue-data {})
+            (assoc
+              :status :searching
+              :ready-check false
+              :ready-deadline nil
+              :countdown nil
+              :banner (str "Match cancelled: " reason)))))))
+
+(defmethod handler/handle "MMSTARTED" [state-atom server-key m]
+  (let [[_all payload] (re-find #"[^\s]+ (.*)" m)
+        [queue-id queue-name & players] (string/split payload #"\t")
+        players (vec players)
+        banner (str "Match starting! " (when (seq players) (string/join " vs " players)))]
+    (swap! state-atom update-in [:by-server server-key :matchmaking-queues queue-id]
+      (fn [queue-data]
+        (-> (or queue-data {})
+            (assoc
+              :status :in-game
+              :ready-check false
+              :am-in false
+              :ready-deadline nil
+              :countdown nil
+              :banner banner))))))
+
+(defmethod handler/handle "MMKICKED" [state-atom server-key m]
+  (let [[_all payload] (re-find #"[^\s]+ (.*)" m)
+        [queue-id queue-name reason] (string/split payload #"\t")]
+    (swap! state-atom update-in [:by-server server-key :matchmaking-queues queue-id]
+      (fn [queue-data]
+        (-> (or queue-data {})
+            (assoc
+              :status :searching
+              :ready-check false
+              :am-in false
+              :ready-deadline nil
+              :countdown nil
+              :banner (str "Kicked: " reason)))))))
 
 
 ; token
