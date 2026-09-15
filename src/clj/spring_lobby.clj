@@ -3769,6 +3769,10 @@
 (defmethod event-handler ::matchmaking-list-my [{:keys [client-data]}]
   (message/send *state client-data "MMLISTMY"))
 
+(defmethod event-handler ::matchmaking-refresh [{:keys [client-data]}]
+  (message/send *state client-data "MMLISTALL")
+  (message/send *state client-data "MMLISTMY"))
+
 (defmethod event-handler ::matchmaking-leave-all [{:keys [client-data]}]
   (message/send *state client-data "MMLEAVEALL")
   (swap! *state update-in [:by-server (u/server-key client-data) :matchmaking-queues]

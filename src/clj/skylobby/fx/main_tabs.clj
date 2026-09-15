@@ -485,6 +485,8 @@
                       :text "Matchmaking"}
             :closable false
             :id "matchmaking"
+            :on-selection-changed {:event/type :spring-lobby/matchmaking-refresh
+                                   :client-data client-data}
             :content
             {:fx/type fx.matchmaking/matchmaking-view
              :server-key server-key}}])

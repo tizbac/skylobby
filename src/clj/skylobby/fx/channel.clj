@@ -746,6 +746,7 @@
                    vec)]
     {:fx/type :v-box
      :style-class ["skylobby-chat"]
+     :min-width 340
      :style {:-fx-background-color "#2b2d31"}
      :children
      [{:fx/type :label

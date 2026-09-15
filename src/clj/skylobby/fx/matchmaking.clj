@@ -1,6 +1,7 @@
 (ns skylobby.fx.matchmaking
   (:require
     [cljfx.api :as fx]
+    [clojure.java.io :as io]
     [clojure.string :as string]
     skylobby.fx
     [skylobby.util :as u]
@@ -19,7 +20,6 @@
 (def panel-line "rgba(255,255,255,0.14)")
 (def accent "rgba(65,184,222,0.72)")
 (def amber "#e4b02e")
-(def bg-gradient "linear-gradient(to bottom right, #26343b, #141c20)")
 
 (def button-primary
   {:-fx-background-color accent
@@ -158,8 +158,14 @@
            {:-fx-text-fill "#bfc7c8" :-fx-font-size 9})
     {:fx/type :h-box
      :alignment :center-right
+     :spacing 8
      :children
      [
+      {:fx/type :button
+       :text "Refresh Queues"
+       :style button-ghost
+       :on-action {:event/type :spring-lobby/matchmaking-refresh
+                   :client-data client-data}}
       {:fx/type :button
        :text "Leave All Queues"
        :style button-ghost
@@ -261,7 +267,11 @@
         active-in-queue (boolean (:am-in active-queue))
         countdown (:countdown active-queue)
         players (or (:players active-queue) [])
-        banner (:banner active-queue)
+        banner (cond
+                 (empty? queues)
+                 "No matchmaking queues available yet - click Refresh Queues"
+                 :else
+                 (:banner active-queue))
         ready-players (or (:ready-players active-queue) #{})
         roster-title (if ready-check
                        (str "Players " (count players) " / " (count players) "  ~  ready " (count ready-players))
@@ -288,8 +298,10 @@
                       "Waiting for players...")
                     {:-fx-text-fill muted :-fx-font-size 10})]))]
     {:fx/type :anchor-pane
-     :style {:-fx-background-color bg-gradient
-             :-fx-font-family "Arial"
+     :background {:fills [{:fill "rgba(17,24,39,0.7)"}]
+                  :images [{:image (str (io/resource "skylobby/background.jpg"))
+                            :size {:width 0 :height 0 :width-as-percentage false :height-as-percentage false :contain false :cover true}}]}
+     :style {:-fx-font-family "Arial"
              :-fx-text-fill white}
      :children
      [
@@ -362,7 +374,7 @@
       (assoc
         (mode-card
           {:mode-name (str "◈  " (:queue-name active-queue "Matchmaking"))
-           :title (string/upper-case (or (:queue-name active-queue) "NO MODE SELECTED"))
+           :title (string/upper-case (or (:queue-name active-queue) "NO QUEUES"))
            :countdown (when ready-check (or countdown 0))
            :searching-size (when (and active-in-queue (not ready-check))
                              (or (:current-size active-queue) (count players)))

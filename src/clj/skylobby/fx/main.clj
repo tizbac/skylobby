@@ -337,9 +337,9 @@
      :style {:-fx-background-color "transparent"}
      :children
      [
-      {:fx/type :image-view
-       :image (str (clojure.java.io/resource "skylobby/background.jpg"))
-       :preserve-ratio false}
+      {:fx/type :region
+       :background {:images [{:image (str (clojure.java.io/resource "skylobby/background.jpg"))
+                              :size {:width 0 :height 0 :width-as-percentage false :height-as-percentage false :contain false :cover true}}]}}
       {:fx/type :region
        :style {:-fx-background-color "rgba(17,24,39,0.6)"}
        :pick-on-bounds true}
