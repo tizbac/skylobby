@@ -1,8 +1,8 @@
-# skylobby [![license](https://img.shields.io/github/license/skynet-gh/skylobby)](LICENSE)
+# skylobby [![license](https://img.shields.io/github/license/tizbac/skylobby)](LICENSE)
 
 A Multiplayer Lobby Client for servers which use [uberserver's](https://github.com/spring/uberserver) protocol and host games which run on the [Spring RTS](https://springrts.com/) or [Recoil](https://beyond-all-reason.github.io/spring/) game engines. It'll let users register and stay connected to multiple servers simultaneously, join battle rooms and will automatically download the required game, map and engine packages. After setting up and downloading the requirements, users can play in the hosted rooms, set up their own or start local single player battles.
 
-This is a fork from the original [Skylobby project](https://github.com/skynet-gh/skylobby/), starting from release 0.9.31. Releases will stick to the a.b.cXXX convention where the a.b.c prefix matches the latest release it's based off of from the original repository and the XXX is the local release number (done for compatibility with the [windows versioning constraints](https://stackoverflow.com/a/52414691) and the installer generation workflow).
+This is a fork from the original [Skylobby project](https://github.com/tizbac/skylobby/), starting from release 0.9.31. Releases will stick to the a.b.cXXX convention where the a.b.c prefix matches the latest release it's based off of from the original repository and the XXX is the local release number (done for compatibility with the [windows versioning constraints](https://stackoverflow.com/a/52414691) and the installer generation workflow).
 
 Although it was tweaked with the Metal Factions community in mind, it's still meant to be a generic lobby client for various games. Key changes:
 - Adds the Metal Factions server to the default server list
@@ -15,13 +15,13 @@ Users can change to this or revert back to the original skylobby by running the 
 ## Usage
 
 The recommended way to install skylobby is to run the installer package for the operating system:
-- [Windows](https://github.com/springraaar/skylobby/releases/download/0.9.31004/skylobby-0.9.31004_windows.msi)
-- [Ubuntu/Debian](https://github.com/springraaar/skylobby/releases/download/0.9.31004/skylobby-0.9.31004_linux-amd64.deb)
-- [Fedora/SUSE](https://github.com/springraaar/skylobby/releases/download/0.9.31004/skylobby-0.9.31004_linux-amd64.rpm)
+- [Windows](https://github.com/tizbac/skylobby/releases/download/0.9.31004/skylobby-0.9.31004_windows.msi)
+- [Ubuntu/Debian](https://github.com/tizbac/skylobby/releases/download/0.9.31004/skylobby-0.9.31004_linux-amd64.deb)
+- [Fedora/SUSE](https://github.com/tizbac/skylobby/releases/download/0.9.31004/skylobby-0.9.31004_linux-amd64.rpm)
 
-The original install instructions and basic usage can be found in the [User Guide](https://github.com/skynet-gh/skylobby/wiki/User-Guide).
+The original install instructions and basic usage can be found in the [User Guide](https://github.com/tizbac/skylobby/wiki/User-Guide).
 
-Feel free to open an [issue](https://github.com/springraaar/skylobby/issues) if you find a bug or have a feature request.
+Feel free to open an [issue](https://github.com/tizbac/skylobby/issues) if you find a bug or have a feature request.
 
 ## Dev
 
@@ -50,7 +50,7 @@ Building the jar file:
 ```bash
 clojure -M:uberjar
 ```
-NOTE: you can also download the latest .jar file from the [releases page](https://github.com/springraaar/skylobby/releases).
+NOTE: you can also download the latest .jar file from the [releases page](https://github.com/tizbac/skylobby/releases).
 
 Running the jar file:
 

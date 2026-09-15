@@ -291,8 +291,6 @@
      :style {:-fx-background-color bg-gradient
              :-fx-font-family "Arial"
              :-fx-text-fill white}
-     :hgrow :always
-     :vgrow :always
      :children
      [
       ; brand (top-left)
