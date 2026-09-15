@@ -51,6 +51,103 @@
                           (sort-by (juxt (comp not :friend :client-status) (comp string/lower-case :username))))]
     sorted-users))
 
+
+(def avatar-colors
+  ["#f0a02b" "#5865f2" "#23a55a" "#ed4245" "#eb459e" "#13c2c8" "#9b59b6" "#faa61a" "#00a8fc"])
+
+
+(defn- avatar-color [username]
+  (let [username (string/lower-case (or username "?"))]
+    (nth avatar-colors (mod (hash username) (count avatar-colors)))))
+
+
+(defn round-badge
+  ([username]
+   (round-badge username 40))
+  ([username size]
+   (let [initial (string/upper-case (subs (or username "?") 0 1))
+         radius (/ size 2)]
+     {:fx/type :label
+      :text initial
+      :min-width size
+      :max-width size
+      :min-height size
+      :max-height size
+      :alignment :center
+      :style {:-fx-background-color (avatar-color username)
+              :-fx-background-radius (str radius)
+              :-fx-text-fill "white"
+              :-fx-font-weight :bold
+              :-fx-font-size (/ size 2.5)}})))
+
+
+(def user-muted "#949ba4")
+(def user-text "#dbdee1")
+
+(def status-label-specs
+  [{:key :bot :text "BOT" :color "#c3ccd2"}
+   {:key :ingame :text "INGAME" :color "#f08422"}
+   {:key :away :text "AWAY" :color "#949ba4"}
+   {:key :access :text "MOD" :color "#f0a02b"}
+   {:key :friend :text "FRIEND" :color "#35d27a"}])
+
+
+(defn- status-label [text color]
+  {:fx/type :label
+   :text text
+   :style {:-fx-text-fill color
+           :-fx-font-size 9
+           :-fx-font-weight :bold
+           :-fx-padding "2 6"
+           :-fx-background-radius 8
+           :-fx-background-color "rgba(255,255,255,0.08)"}})
+
+
+(defn user-row
+  [{:keys [username country client-status]}]
+  (let [statuses (->> status-label-specs
+                      (filter (fn [{:keys [key]}] (get client-status key)))
+                      (map (fn [{:keys [text color]}] (status-label text color))))
+        rank (:rank client-status)]
+    {:fx/type :h-box
+     :alignment :center-left
+     :style-class ["skylobby-user-row"]
+     :style {:-fx-padding "4 8"}
+     :children
+     [(round-badge username)
+      {:fx/type :v-box
+       :h-box/hgrow :always
+       :min-width 0
+       :children
+       [{:fx/type :h-box
+         :alignment :center-left
+         :spacing 5
+         :children
+         (concat
+           (when (seq country)
+             [{:fx/type flag-icon/flag-icon
+               :country-code country}
+              {:fx/type :label
+               :text (str country)
+               :style {:-fx-text-fill user-muted
+                       :-fx-font-size 11}}])
+           (when (some? rank)
+             [{:fx/type :label
+               :text (str (if (seq country) "• " "") "rank " rank)
+               :style {:-fx-text-fill user-muted
+                       :-fx-font-size 11}}]))}
+        {:fx/type :h-box
+         :alignment :center-left
+         :spacing 6
+         :children
+         (concat
+           [{:fx/type :label
+             :text (str username)
+             :style {:-fx-text-fill user-text
+                     :-fx-font-size 14}}]
+           statuses)}]}]
+     }))
+
 (defn users-table-impl
   [{:fx/keys [context]
     :keys [users server-key]}]
@@ -166,81 +263,16 @@
                                                (str " " (u/format-duration (java-time/duration diff :millis))))))))}})))}
       :columns
       [{:fx/type :table-column
-        :text "Username"
+        :text "User"
         :resizable true
-        :pref-width 200
-        :cell-value-factory :username
-        :cell-factory
-        {:fx/cell-type :table-cell
-         :describe
-         (fn [username]
-           {:text (str username)})}}
-       {:fx/type :table-column
         :sortable false
-        :text "Status"
-        :resizable false
-        :pref-width 64
-        :cell-value-factory #(select-keys (:client-status %) [:bot :access :away :ingame :friend])
+        :cell-value-factory identity
         :cell-factory
         {:fx/cell-type :table-cell
          :describe
-         (fn [status]
+         (fn [user]
            {:text ""
-            :graphic
-            {:fx/type :h-box
-             :children
-             (concat
-               [{:fx/type font-icon/lifecycle
-                 :icon-literal
-                 (str
-                   "mdi-"
-                   (cond
-                     (:bot status) "robot"
-                     (:access status) "account-key"
-                     (:friend status) "account-star"
-                     :else "account")
-                   ":16:"
-                   (cond
-                     (:bot status) "grey"
-                     (:access status) "orange"
-                     (:friend status) "green"
-                     :else "white"))}]
-               (when (:ingame status)
-                 [{:fx/type font-icon/lifecycle
-                   :icon-literal "mdi-sword:16:red"}])
-               (when (:away status)
-                 [{:fx/type font-icon/lifecycle
-                   :icon-literal "mdi-sleep:16:grey"}]))}})}}
-       {:fx/type :table-column
-        :text "Country"
-        :resizable false
-        :pref-width 72
-        :cell-value-factory :country
-        :cell-factory
-        {:fx/cell-type :table-cell
-         :describe
-         (fn [country]
-           {:text ""
-            :graphic
-            {:fx/type flag-icon/flag-icon
-             :country-code country}})}}
-       #_
-       {:fx/type :table-column
-        :text "Rank"
-        :resizable false
-        :pref-width 64
-        :cell-value-factory (comp :rank :client-status)
-        :cell-factory
-        {:fx/cell-type :table-cell
-         :describe (fn [rank] {:text (str rank)})}}
-       {:fx/type :table-column
-        :text "Lobby Client"
-        :resizable true
-        :pref-width 200
-        :cell-value-factory :user-agent
-        :cell-factory
-        {:fx/cell-type :table-cell
-         :describe (fn [user-agent] {:text (str user-agent)})}}]}}))
+            :graphic (user-row user)})}}]}}))
 
 (defn users-table [state]
   (tufte/profile {:dynamic? true
