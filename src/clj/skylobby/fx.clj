@@ -120,47 +120,88 @@
       :-fx-base "#ffd700"}}}})
 (def black-style-data
   {".root"
-   {:-fx-base "rgb(30, 30, 30)"
-    :-fx-accent "rgb(65, 65, 65)"
-    :-fx-background "rgb(0, 0, 0)"
-    :-fx-control-inner-background "rgb(40, 40, 40)"
-    :-fx-selection-bar-non-focused "rgb(55, 55, 55)"
-    :-fx-focus-color "transparent"
-    :-fx-faint-focus-color "transparent"}
+   {:-fx-base "rgb(31, 41, 55)"
+    :-fx-accent "#0891b2"
+    :-fx-background "rgb(17, 24, 39)"
+    :-fx-control-inner-background "rgb(17, 24, 39)"
+    :-fx-selection-bar-non-focused "#0891b2"
+    :-fx-focus-color "rgba(34, 211, 238, 0.4)"
+    :-fx-faint-focus-color "rgba(34, 211, 238, 0.1)"}
+   ".button"
+   {:-fx-background-color "#0891b2"
+    :-fx-text-fill "white"
+    :-fx-background-radius "6"
+    :-fx-background-insets "0"
+    :-fx-padding "6 16"
+    :-fx-cursor "hand"
+    ":hover"
+    {:-fx-background-color "#0e7490"
+     :-fx-text-fill "white"}
+    ":armed"
+    {:-fx-background-color "#0e7490"
+     :-fx-text-fill "white"}
+    ":default"
+    {:-fx-background-color "#0891b2"
+     :-fx-text-fill "white"}
+    ":disabled"
+    {:-fx-background-color "rgb(55, 65, 81)"
+     :-fx-text-fill "#9ca3af"}}
    ".tab"
-   {:-fx-base "rgb(45, 45, 45)"
-    :-fx-background "rgb(60, 60, 60)"
-    :-fx-accent "rgb(0, 0, 0)"}
+   {:-fx-base "rgb(31, 41, 55)"
+    :-fx-background "rgb(31, 41, 55)"
+    :-fx-text-fill "#9ca3af"}
    ".tab:selected"
-   {:-fx-background "rgb(0, 0, 0)"
-    :-fx-accent "rgb(160, 160, 160)"}
+   {:-fx-base "rgb(17, 24, 39)"
+    :-fx-background "rgb(17, 24, 39)"
+    :-fx-text-fill "#22d3ee"
+    :-fx-border-color "#0891b2"
+    :-fx-border-width "0 0 2 0"}
+   ".tab-pane > .tab-header-area > .tab-header-background"
+   {:-fx-background-color "rgb(31, 41, 55)"}
    ".styled-text-area"
-   {:-fx-background-color "rgb(0, 0, 0)"}
+   {:-fx-background-color "rgb(17, 24, 39)"}
    ".text-field"
-   {:-fx-prompt-text-fill "rgb(180, 180, 180)"}
+   {:-fx-prompt-text-fill "rgb(156, 163, 175)"
+    :-fx-background-color "rgb(30, 41, 59)"
+    :-fx-text-fill "#e5e7eb"
+    :-fx-border-color "rgb(55, 65, 81)"
+    ":focused"
+    {:-fx-border-color "#22d3ee"
+     :-fx-border-width "1"}}
+   ".password-field"
+   {:-fx-prompt-text-fill "rgb(156, 163, 175)"
+    :-fx-background-color "rgb(30, 41, 59)"
+    :-fx-text-fill "#e5e7eb"
+    :-fx-border-color "rgb(55, 65, 81)"
+    ":focused"
+    {:-fx-border-color "#22d3ee"
+     :-fx-border-width "1"}}
+   ".combo-box"
+   {:-fx-background-color "rgb(30, 41, 59)"
+    :-fx-text-fill "#e5e7eb"}
    ".scroll-bar .thumb"
    {:-fx-background-radius "2, 1"
     :-fx-background-insets "3, 4"}
    ".scroll-bar:vertical .thumb"
-   {:-fx-background-color "rgb(90,90,90),linear-gradient(to right,derive(-fx-base,30%),derive(-fx-base,-30%))" }
+   {:-fx-background-color "rgb(107,114,128),linear-gradient(to right,derive(-fx-base,30%),derive(-fx-base,-30%))" }
    ".scroll-bar:horizontal .thumb"
-   {:-fx-background-color "rgb(90,90,90),linear-gradient(to bottom,derive(-fx-base,30%),derive(-fx-base,-30%))" }
+   {:-fx-background-color "rgb(107,114,128),linear-gradient(to bottom,derive(-fx-base,30%),derive(-fx-base,-30%))" }
    ".scroll-bar:vertical .thumb:hover"
-   {:-fx-background-color "rgb(110,110,110),linear-gradient(to right,derive(-fx-base,50%),derive(-fx-base,-10%))" }
+   {:-fx-background-color "rgb(148,163,184),linear-gradient(to right,derive(-fx-base,50%),derive(-fx-base,-10%))" }
    ".scroll-bar:horizontal .thumb:hover"
-   {:-fx-background-color "rgb(110,110,110),linear-gradient(to bottom,derive(-fx-base,50%),derive(-fx-base,-10%))" }
+   {:-fx-background-color "rgb(148,163,184),linear-gradient(to bottom,derive(-fx-base,50%),derive(-fx-base,-10%))" }
    ".doc-link, .hyperlink"
-   {:-fx-text-fill "rgb(70,70,255)"
+   {:-fx-text-fill "#22d3ee"
     :-fx-cursor "hand"
     :-fx-underline true}
    ".doc-link:hover, .hyperlink:hover"
-   {:-fx-text-fill "rgb(70,130,255)"}
+   {:-fx-text-fill "#67e8f9"}
    ".table-row-cell:odd"
-   {:-fx-background-color "rgb(28, 28, 28)"}
+   {:-fx-background-color "rgb(31, 41, 55)"}
    ".table-row-cell:even"
-   {:-fx-background-color "rgb(18, 18, 18)"}
+   {:-fx-background-color "rgb(17, 24, 39)"}
    ".table-row-cell:odd:selected,.table-row-cell:even:selected"
-   {:-fx-background-color "rgb(70, 70, 70)"}
+   {:-fx-background-color "rgb(14, 116, 144)"}
    ".table-row-cell:odd:empty, .table-row-cell:even:empty"
    {:-fx-background-color "transparent"}
    ".combo-box .arrow-button .arrow,.scroll-bar .increment-arrow,.scroll-bar .decrement-arrow"
@@ -285,6 +326,9 @@
    {:-fx-text-fill "rgb(255, 190, 140)"}
    ".styled-text-area"
    {:-fx-background-color "rgb(50, 50, 50)"}
+   ".skylobby-user-row:hover"
+   {:-fx-background-color "rgba(255,255,255,0.08)"
+    :-fx-background-radius "8"}
    ".skylobby-chat-history"
    {:-fx-background-color "#313338"}
    ".skylobby-chat-history .viewport"

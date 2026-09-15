@@ -1,6 +1,7 @@
 (ns skylobby.fx.welcome
   (:require
     [cljfx.api :as fx]
+    [clojure.java.io :as io]
     [clojure.string :as string]
     skylobby.fx
     [skylobby.fx.font-icon :as font-icon]
@@ -362,38 +363,47 @@
 
 (defn- welcome-view-impl
   [_state]
-  {:fx/type :v-box
-   :alignment :center
-   :style {:-fx-font-size 20}
+  {:fx/type :stack-pane
+   :style {:-fx-background-color "transparent"}
    :children
-   [
-    {:fx/type :pane
-     :v-box/vgrow :always}
-    {:fx/type :hyperlink
-     :style {:-fx-font-size 24}
-     :text (str "skylobby " u/app-version)
-     :on-action {:event/type :spring-lobby/desktop-browse-url
-                 :url "https://github.com/tizbac/skylobby/wiki/User-Guide"}}
-    {:fx/type :pane
-     :pref-height 20}
-    {:fx/type :h-box
+   [{:fx/type :image-view
+     :image (str (io/resource "skylobby/background.jpg"))
+     :preserve-ratio false}
+    {:fx/type :region
+     :style {:-fx-background-color "rgba(17,24,39,0.55)"}
+     :pick-on-bounds true}
+    {:fx/type :v-box
+     :alignment :center
+     :style {:-fx-font-size 20}
      :children
      [
       {:fx/type :pane
-       :h-box/hgrow :always}
+       :v-box/vgrow :always}
+      {:fx/type :hyperlink
+       :style {:-fx-font-size 24}
+       :text (str "skylobby " u/app-version)
+       :on-action {:event/type :spring-lobby/desktop-browse-url
+                   :url "https://github.com/tizbac/skylobby/wiki/User-Guide"}}
+      {:fx/type :pane
+       :pref-height 20}
       {:fx/type :h-box
-       :spacing 100
        :children
-       [{:fx/type :pane
+       [
+        {:fx/type :pane
          :h-box/hgrow :always}
-        {:fx/type singleplayer-buttons}
-        {:fx/type multiplayer-buttons}
+        {:fx/type :h-box
+         :spacing 100
+         :children
+         [{:fx/type :pane
+           :h-box/hgrow :always}
+          {:fx/type singleplayer-buttons}
+          {:fx/type multiplayer-buttons}
+          {:fx/type :pane
+           :h-box/hgrow :always}]}
         {:fx/type :pane
          :h-box/hgrow :always}]}
       {:fx/type :pane
-       :h-box/hgrow :always}]}
-    {:fx/type :pane
-     :v-box/vgrow :always}]})
+       :v-box/vgrow :always}]}]})
 
 (defn welcome-view [state]
   (tufte/profile {:dynamic? true

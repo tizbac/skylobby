@@ -2,6 +2,7 @@
   (:require
     [cljfx.api :as fx]
     [cljfx.ext.tab-pane :as fx.ext.tab-pane]
+    clojure.java.io
     [clojure.string :as string]
     skylobby.direct
     skylobby.fx
@@ -332,12 +333,22 @@
         selected-tab-main (fx/sub-val context :selected-tab-main)
         selected-tab-channel (fx/sub-val context :selected-tab-channel)
         mute (fx/sub-val context :mute)]
-    {:fx/type :v-box
-     :style {:-fx-font-size 14}
-     :alignment :top-left
+    {:fx/type :stack-pane
+     :style {:-fx-background-color "transparent"}
      :children
      [
-      {:fx/type fx.ext.tab-pane/with-selection-props
+      {:fx/type :image-view
+       :image (str (clojure.java.io/resource "skylobby/background.jpg"))
+       :preserve-ratio false}
+      {:fx/type :region
+       :style {:-fx-background-color "rgba(17,24,39,0.6)"}
+       :pick-on-bounds true}
+      {:fx/type :v-box
+       :style {:-fx-font-size 14}
+       :alignment :top-left
+       :children
+       [
+        {:fx/type fx.ext.tab-pane/with-selection-props
        :v-box/vgrow :always
        :props
        {:on-selected-item-changed {:event/type :spring-lobby/selected-item-changed-server-tabs
@@ -561,8 +572,8 @@
               :content
               (merge
                 {:fx/type multi-server-tab}
-                (select-keys state [:map-details :mod-details]))}]))}}
-      {:fx/type fx.bottom-bar/bottom-bar}]}))
+(select-keys state [:map-details :mod-details]))}]))}}
+       {:fx/type fx.bottom-bar/bottom-bar}]}]}))
 
 (defn main-window [state]
   (tufte/profile {:dynamic? true
