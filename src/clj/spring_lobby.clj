@@ -64,6 +64,7 @@
            (javafx.scene.control
             ColorPicker
             ScrollBar
+            ScrollPane
             Tab
             TextField)
            (javafx.scene.input
@@ -3701,20 +3702,34 @@
 
 
 (defn set-auto-scroll-if-at-bottom [^Event event k]
-  (let [
-        ^Parent source (.getSource event)
-        delta-y (if (instance? ScrollEvent event)
+  (let [delta-y (if (instance? ScrollEvent event)
                   (let [^ScrollEvent scroll-event event]
                     (.getDeltaY scroll-event))
                   0.0)
-        needs-auto-scroll (when (and source (instance? VirtualizedScrollPane source))
-                            (let [[_ _ ^ScrollBar ybar] (vec (.getChildrenUnmodifiable source))]
-                              (if (.isVisible ybar)
-                                (< (- (.getMax ybar) (- (.getValue ybar) delta-y))
-                                   80)
-                                true)))]
-    (log/info "Setting" k "to" needs-auto-scroll)
-    (swap! *state assoc k needs-auto-scroll)))
+        ^Node source (.getSource event)
+        needs-auto-scroll
+        (when (instance? Node source)
+          (loop [^Node node source]
+            (when node
+              (cond
+                (instance? VirtualizedScrollPane node)
+                (let [^VirtualizedScrollPane virtualized node
+                      [_ _ ^ScrollBar ybar] (vec (.getChildrenUnmodifiable virtualized))]
+                  (if (.isVisible ybar)
+                    (< (- (.getMax ybar) (- (.getValue ybar) delta-y)) 80)
+                    true))
+                (instance? ScrollPane node)
+                (let [^ScrollPane scroll-pane node]
+                  (if-let [^ScrollBar ybar (.lookup scroll-pane ".scroll-bar:vertical")]
+                    (if (.isVisible ybar)
+                      (< (- (.getMax ybar) (- (.getValue ybar) delta-y)) 80)
+                      true)
+                    (< (- (.getVmax scroll-pane) (.getVvalue scroll-pane)) 0.01)))
+                :else
+                (recur (.getParent node))))))]
+    (when (some? needs-auto-scroll)
+      (log/info "Setting" k "to" needs-auto-scroll)
+      (swap! *state assoc k needs-auto-scroll))))
 
 (defmethod event-handler ::filter-channel-scroll [{:fx/keys [^Event event]}]
   (let [event-type (.getEventType event)]

@@ -11,7 +11,7 @@
 (set! *warn-on-reflection* true)
 
 
-(def matchmaking-window-width 600)
+(def matchmaking-window-width 800)
 (def matchmaking-window-height 700)
 (def cyan "#69d8ff")
 (def white "#f3f5f4")
@@ -353,7 +353,7 @@
         (apply panel roster-children)
         :anchor-pane/top 140
         :anchor-pane/left 48
-        :anchor-pane/bottom 140
+        :anchor-pane/bottom 200
         :anchor-pane/right Double/POSITIVE_INFINITY)
 
       ; team card (right, top)
@@ -370,7 +370,7 @@
         :anchor-pane/right 48
         :anchor-pane/left Double/POSITIVE_INFINITY)
 
-      ; mode card (bottom-left)
+      ; mode card (top-left, under the brand)
       (assoc
         (mode-card
           {:mode-name (str "◈  " (:queue-name active-queue "Matchmaking"))
@@ -379,10 +379,10 @@
            :searching-size (when (and active-in-queue (not ready-check))
                              (or (:current-size active-queue) (count players)))
            :max-size max-total})
-        :anchor-pane/left 48
-        :anchor-pane/bottom 96)
+        :anchor-pane/top 60
+        :anchor-pane/left 48)
 
-      ; controls (bottom-center)
+      ; controls (bottom, full width)
       (assoc
         (controls
           {:server-key server-key
@@ -395,7 +395,7 @@
            :my-in-selected (boolean (:am-in selected))
            :ready-check ready-check
            :countdown countdown})
-        :anchor-pane/left 390
+        :anchor-pane/left 48
         :anchor-pane/right 48
         :anchor-pane/bottom 150
         :alignment :center)
